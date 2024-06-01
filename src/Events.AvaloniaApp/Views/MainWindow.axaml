@@ -1,0 +1,123 @@
+<!-- <Window xmlns="https://github.com/avaloniaui" -->
+<!--         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" -->
+<!--         xmlns:vm="using:Events.AvaloniaApp.ViewModels" -->
+<!--         xmlns:d="http://schemas.microsoft.com/expression/blend/2008" -->
+<!--         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" -->
+<!--         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450" -->
+<!--         x:Class="Events.AvaloniaApp.Views.MainWindow" -->
+<!--         x:DataType="vm:MainWindowViewModel" -->
+<!--         Icon="/Assets/avalonia-logo.ico" -->
+<!--         Title="Events.AvaloniaApp"> -->
+<!-- -->
+<!--     <DockPanel> -->
+<!--         <TabControl Margin="5"> -->
+<!--             <TabItem Header="Events"> -->
+<!--                 <SplitView -->
+<!--                     IsPaneOpen="True" -->
+<!--                     DisplayMode="Inline" -->
+<!--                     OpenPaneLength="150"> -->
+<!--                     <SplitView.Pane> -->
+<!--                         ~1~         <TextBlock @1@ -->
+<!--                         ~1~             ~2~ Text="Pane" @2@ @1@ -->
+<!--                         ~1~             ~2~ FontSize="24" @2@ @1@ -->
+<!--                         ~1~             ~2~ VerticalAlignment="Center" @2@ @1@ -->
+<!--                         ~1~             ~2~ HorizontalAlignment="Center"></TextBlock> @2@ @1@ -->
+<!--                         ~1~ ~2~ Side Navigation @2@ @1@ -->
+<!--                         <StackPanel DockPanel.Dock="Left" Width="100"> -->
+<!--                             <Button Content="All events" Margin="10" /> -->
+<!--                             <Button Content="Tomorrow" Margin="10" /> -->
+<!--                         </StackPanel> -->
+<!--                     </SplitView.Pane> -->
+<!-- -->
+<!--                     ~1~ <Grid> @1@ -->
+<!--                     <DataGrid ItemsSource="{Binding Events}"  -->
+<!--                               SelectedItem="{Binding SelectedEvent}" -->
+<!--                               AutoGenerateColumns="False" -->
+<!--                               IsReadOnly="False" -->
+<!--                               Margin="5"> -->
+<!--                         <DataGrid.Columns> -->
+<!--                             <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="False"/> -->
+<!--                             <DataGridTextColumn Header="Date and Time" Binding="{Binding DateTime}" IsReadOnly="False"/> -->
+<!--                             <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" IsReadOnly="False"/> -->
+<!--                             <DataGridTextColumn Header="Location" Binding="{Binding Location}" IsReadOnly="False"/> -->
+<!--                             <DataGridTextColumn Header="Category" Binding="{Binding Category}" IsReadOnly="False"/> -->
+<!--                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="False"/> -->
+<!--                         </DataGrid.Columns> -->
+<!--                     </DataGrid> -->
+<!--                         ~1~ <Grid> @1@ -->
+<!--                         ~1~     ~2~ <DataGrid Name="eventsDataGrid" Margin="10" AutoGenerateColumns="False"> @2@ @1@ -->
+<!--                         ~1~     ~2~     ~3~ Columns configuration needed here @3@ @2@ @1@ -->
+<!--                         ~1~     ~2~ </DataGrid> @2@ @1@ -->
+<!--                         ~1~ @1@ -->
+<!--                         ~1~     ~2~ Bottom Controls @2@ @1@ -->
+<!--                         ~1~     <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Bottom" @1@ -->
+<!--                         ~1~                 Margin="10"> @1@ -->
+<!--                         ~1~         <Label Content="Choose by category:" /> @1@ -->
+<!--                         ~1~         <ComboBox Width="150" Margin="10" /> @1@ -->
+<!--                         ~1~         ~2~ <TextBox Width="150" Margin="10" PlaceholderText="Please, enter the date"/> @2@ @1@ -->
+<!--                         ~1~         <Button Content="Get from file" Margin="10" /> @1@ -->
+<!--                         ~1~     </StackPanel> @1@ -->
+<!--                         ~1~ </Grid> @1@ -->
+<!-- -->
+<!-- -->
+<!--                         ~1~ Main Content Area @1@ -->
+<!-- -->
+<!--                     ~1~ </Grid> @1@ -->
+<!--                 </SplitView> -->
+<!--             </TabItem> -->
+<!--             <TabItem Header="Stats"> -->
+<!--                 <TextBlock Margin="5">This is tab 2 content</TextBlock> -->
+<!--             </TabItem> -->
+<!--             <TabItem Header="Upcoming events"> -->
+<!--                 <TextBlock Margin="5">This is tab 3 content</TextBlock> -->
+<!--             </TabItem> -->
+<!--         </TabControl> -->
+<!-- -->
+<!--     </DockPanel> -->
+<!--     <Design.DataContext> -->
+<!--         <vm:MainWindowViewModel /> -->
+<!--     </Design.DataContext> -->
+<!-- </Window> -->
+
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Events.AvaloniaApp.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Events.AvaloniaApp.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Events.AvaloniaApp">
+
+    <Design.DataContext>
+        <vm:MainWindowViewModel />
+    </Design.DataContext>
+
+    <DockPanel>
+        <TabControl Margin="5">
+            <TabItem Header="Events">
+                <DataGrid ItemsSource="{Binding Events}" 
+                          SelectedItem="{Binding SelectedEvent}"
+                          AutoGenerateColumns="False"
+                          IsReadOnly="False"
+                          Margin="5">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Date and Time" Binding="{Binding DateTime}" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Location" Binding="{Binding Location}" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category}" IsReadOnly="False"/>
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" IsReadOnly="False"/>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+            <TabItem Header="Stats">
+                <TextBlock Margin="5">This is tab 2 content</TextBlock>
+            </TabItem>
+            <TabItem Header="Upcoming events">
+                <TextBlock Margin="5">This is tab 3 content</TextBlock>
+            </TabItem>
+        </TabControl>
+    </DockPanel>
+</Window>
