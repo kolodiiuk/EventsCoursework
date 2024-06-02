@@ -1,0 +1,87 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Events.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Events.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Events">
+
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="File">
+                <MenuItem Header="New" />
+                <MenuItem Header="Open" />
+                <MenuItem Header="Save" />
+                <MenuItem Header="Exit" />
+            </MenuItem>
+            <MenuItem Header="Edit">
+                <MenuItem Header="Undo" />
+                <MenuItem Header="Redo" />
+            </MenuItem>
+        </Menu>
+<!--todo: add whattodo with yesterday events-->
+        <TabControl Margin="5">
+            <TabItem Header="Events">
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+
+                    <SplitView
+                        IsPaneOpen="True"
+                        DisplayMode="Inline"
+                        OpenPaneLength="200">
+
+                        <SplitView.Pane>
+                            <StackPanel DockPanel.Dock="Left" Width="170">
+                                <TextBlock>Search</TextBlock>
+                                <TextBox></TextBox>
+                                <Button Content="Search by filters" HorizontalAlignment="Stretch"></Button>
+                                <!--todo: create a view-->
+                                <Button Content="All events" Margin="10" HorizontalAlignment="Stretch"></Button>
+                                <Button Content="Today" Margin="10" HorizontalAlignment="Stretch"></Button>
+                                <Button Content="Tomorrow" Margin="10" HorizontalAlignment="Stretch"></Button>
+                                <Button Content="The day after tomorrow" Margin="10" HorizontalAlignment="Stretch"></Button>
+                                <CalendarDatePicker HorizontalAlignment="Stretch"></CalendarDatePicker>
+                                <Button Content="Custom date"  HorizontalAlignment="Stretch" />
+                            </StackPanel>
+                        </SplitView.Pane>
+
+                        <DockPanel>
+                            <Button DockPanel.Dock="Bottom" Content="Create event" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"></Button>
+<!--todo: add create event dialog-->
+							<DataGrid Margin="20" ItemsSource="{Binding Events}"
+                                      GridLinesVisibility="All"
+                                      BorderThickness="1" BorderBrush="Gray">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" />
+                                    <!--todo: custom sort comparer-->
+                                    <DataGridTextColumn Header="Event Date" Binding="{Binding DateTime}" />
+
+                                    <DataGridTemplateColumn Header="Actions">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="🚮" />
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                        </DockPanel>
+
+                    </SplitView>
+                </ScrollViewer>
+            </TabItem>
+
+            <TabItem Header="Stats">
+                <TextBlock>tab2</TextBlock>
+            </TabItem>
+
+            <TabItem Header="Settings">
+                <TextBlock>tab3</TextBlock>
+            </TabItem>
+        </TabControl>
+
+    </DockPanel>
+</Window>
