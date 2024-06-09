@@ -7,14 +7,19 @@ using System.Threading.Tasks;
 
 namespace Events.Models;
 
-public class EventJsonRepository : IRepository //todo: adjust result
+public class EventRepository : IEventRepository //todo: adjust result
 {
     private readonly string _filePath;
 
     private readonly JsonSerializerOptions _options = new JsonSerializerOptions
-        { PropertyNamingPolicy = JsonNamingPolicy.CamelCase, WriteIndented = true };
+    {
+        PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+        WriteIndented = true,
+    };
 
-    public EventJsonRepository(string filePath = null)
+
+
+    public EventRepository(string filePath = null)
     {
         _filePath = filePath ?? Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory, $"Events.json");
@@ -29,16 +34,16 @@ public class EventJsonRepository : IRepository //todo: adjust result
             WriteToFileAsync(new List<Event>()).GetAwaiter().GetResult();
         }
     }
-    
-    public async Task<Result> AddAsync(Event @event)
+
+    public async Task<Result> AddEventAsync(Event @event)
     {
         try
         {
             var events = await ReadFromFileAsync();
             events.Add(@event);
-            
+
             await WriteToFileAsync(events);
-            
+
             return Result.Success();
         }
         catch (Exception ex)
@@ -47,7 +52,8 @@ public class EventJsonRepository : IRepository //todo: adjust result
         }
     }
 
-    public async Task<Result<Event>> GetSingleByConditionAsync(Func<Event, bool> condition)
+    public async Task<Result<Event>> GetSingleEventByConditionAsync(
+        Func<Event, bool> condition)
     {
         try
         {
@@ -68,9 +74,21 @@ public class EventJsonRepository : IRepository //todo: adjust result
             return Result.Fail<Event>("Error retrieving event.");
         }
     }
-    
-    public async Task<Result<IEnumerable<Event>>> GetListByConditionAsync(
-        Func<Event, bool> condition)
+
+    //public async Task<Result<IEnumerable<Event>>> GetAllEventsAsync()
+    //{
+    //    try
+    //    {
+    //        var events = await ReadFromFileAsync();
+    //        return Result.Success<IEnumerable<Event>>(events);
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        return Result.Fail<IEnumerable<Event>>("Error retrieving events.");
+    //    }
+    //}
+
+    public async Task<Result<IEnumerable<Event>>> GetEventListByConditionAsync(Func<Event, bool> condition)
     {
         try
         {
@@ -92,7 +110,8 @@ public class EventJsonRepository : IRepository //todo: adjust result
         }
     }
 
-    public async Task<Result> UpdateAsync(Event @event, Func<Event, bool> condition)
+    public async Task<Result> UpdateEventAsync(
+        Event @event, Func<Event, bool> condition)
     {
         try
         {
@@ -103,11 +122,11 @@ public class EventJsonRepository : IRepository //todo: adjust result
             {
                 return Result.Fail("Event not found.");
             }
-            
+
             events.Remove(eventToUpdate);
             events.Add(@event);
             await WriteToFileAsync(events);
-            
+
             return Result.Success(true);
         }
         catch (Exception ex)
@@ -116,7 +135,7 @@ public class EventJsonRepository : IRepository //todo: adjust result
         }
     }
 
-    public async Task<Result> DeleteAsync(Func<Event, bool> condition)
+    public async Task<Result> DeleteEventAsync(Func<Event, bool> condition)
     {
         try
         {
@@ -134,7 +153,7 @@ public class EventJsonRepository : IRepository //todo: adjust result
             }
 
             await WriteToFileAsync(events);
-            
+
             return Result.Success();
         }
         catch (Exception ex)
@@ -147,7 +166,7 @@ public class EventJsonRepository : IRepository //todo: adjust result
     {
         using var stream = File.OpenRead(_filePath);
         var items = await JsonSerializer.DeserializeAsync<List<Event>>(stream, _options) ?? new List<Event>();
-            
+
         return items;
     }
 

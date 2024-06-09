@@ -1,0 +1,29 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:viewModels="clr-namespace:Events.ViewModels"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Events.Views.EditEventWindow"
+        Title="Edit event"
+        x:DataType="viewModels:EditEventWindowViewModel">
+    
+    <StackPanel>
+        <TextBlock>Name:</TextBlock>
+        <TextBox></TextBox>
+        <TextBlock>Date:</TextBlock>
+        <DatePicker></DatePicker>
+        <TextBlock>Time:</TextBlock>
+        <TimePicker ></TimePicker>
+        <TextBlock>Duration:</TextBlock>
+        <TextBox></TextBox>
+        <TextBlock>Location:</TextBlock>
+        <TextBox></TextBox>
+        <TextBlock>Category:</TextBlock>
+        <ComboBox></ComboBox>
+        <TextBlock>Description:</TextBlock>
+        <TextBox></TextBox>
+        
+        <Button Content="Save changes" Command="{Binding EditEventCommand}"></Button>
+    </StackPanel>
+</Window>

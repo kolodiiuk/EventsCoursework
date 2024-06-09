@@ -22,7 +22,6 @@
                 <MenuItem Header="Redo" />
             </MenuItem>
         </Menu>
-<!--todo: add whattodo with yesterday events-->
         <TabControl Margin="5">
             <TabItem Header="Events">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
@@ -36,38 +35,44 @@
                             <StackPanel DockPanel.Dock="Left" Width="170">
                                 <TextBlock>Search</TextBlock>
                                 <TextBox></TextBox>
-                                <Button Content="Search by filters" HorizontalAlignment="Stretch"></Button>
-                                <!--todo: create a view-->
+                                <Button Content="Search by filters" HorizontalAlignment="Stretch" Command="{Binding OpenSearchWindowCommand}"></Button>
                                 <Button Content="All events" Margin="10" HorizontalAlignment="Stretch"></Button>
                                 <Button Content="Today" Margin="10" HorizontalAlignment="Stretch"></Button>
                                 <Button Content="Tomorrow" Margin="10" HorizontalAlignment="Stretch"></Button>
                                 <Button Content="The day after tomorrow" Margin="10" HorizontalAlignment="Stretch"></Button>
                                 <CalendarDatePicker HorizontalAlignment="Stretch"></CalendarDatePicker>
                                 <Button Content="Custom date"  HorizontalAlignment="Stretch" />
+                                
+                            <Button DockPanel.Dock="Bottom" 
+                                    Content="Edit event" 
+                                    HorizontalAlignment="Stretch" 
+                                    HorizontalContentAlignment="Center" 
+                                    Command="{Binding OpenEditEventWindowCommand}"/>
                             </StackPanel>
                         </SplitView.Pane>
-
+                        
                         <DockPanel>
-                            <Button DockPanel.Dock="Bottom" Content="Create event" HorizontalAlignment="Stretch" HorizontalContentAlignment="Center"></Button>
-<!--todo: add create event dialog-->
-							<DataGrid Margin="20" ItemsSource="{Binding Events}"
+                            <Button DockPanel.Dock="Bottom" 
+                                    Content="Create event" 
+                                    HorizontalAlignment="Stretch" 
+                                    HorizontalContentAlignment="Center" 
+                                    Command="{Binding OpenCreateEventWindowCommand}"/>
+							<DataGrid Margin="20" 
+                                      ItemsSource="{Binding Events}"
                                       GridLinesVisibility="All"
-                                      BorderThickness="1" BorderBrush="Gray">
+                                      BorderThickness="1" 
+                                      BorderBrush="Gray" 
+                                      SelectedItem="{Binding SelectedEvent}">
                                 <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Event Name" Binding="{Binding Name}" />
-                                    <!--todo: custom sort comparer-->
-                                    <DataGridTextColumn Header="Event Date" Binding="{Binding DateTime}" />
-
-                                    <DataGridTemplateColumn Header="Actions">
-                                        <DataGridTemplateColumn.CellTemplate>
-                                            <DataTemplate>
-                                                <Button Content="🚮" />
-                                            </DataTemplate>
-                                        </DataGridTemplateColumn.CellTemplate>
-                                    </DataGridTemplateColumn>
+                                    <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected}" />
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                    <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
+                                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
+                                    <DataGridTextColumn Header="Location" Binding="{Binding Location}"/>
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
+                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}"/>
                                 </DataGrid.Columns>
                             </DataGrid>
-
                         </DockPanel>
 
                     </SplitView>
@@ -78,9 +83,9 @@
                 <TextBlock>tab2</TextBlock>
             </TabItem>
 
-            <TabItem Header="Settings">
-                <TextBlock>tab3</TextBlock>
-            </TabItem>
+            <!-- <TabItem Header="Settings"> -->
+            <!--     <TextBlock>tab3</TextBlock> -->
+            <!-- </TabItem> -->
         </TabControl>
 
     </DockPanel>

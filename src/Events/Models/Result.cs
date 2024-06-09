@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 
 namespace Events.Models;
@@ -60,7 +59,7 @@ public class Result
         }
 
         string errorMessage = string.Join(
-            errorMessagesSeparator, 
+            errorMessagesSeparator,
             failedResults.Select(x => x.Error).ToArray());
         return Fail(errorMessage);
     }
@@ -88,7 +87,7 @@ public class Result<T> : Result
         }
     }
 
-    public Result(T value, bool isSuccess, string errorMessage) 
+    public Result(T value, bool isSuccess, string errorMessage)
         : base(isSuccess, errorMessage)
     {
         _value = value;

@@ -20,5 +20,14 @@ build_property.EnableGeneratedComInterfaceComImportInterop =
 [C:/Users/nsk18/source/repos/EventsCoursework/src/Events/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
+[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/CreateEventWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/EditEventWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
+[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/ErrorWindow.axaml]
+build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
+
 [C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

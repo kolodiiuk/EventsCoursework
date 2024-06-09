@@ -1,10 +1,11 @@
 ﻿namespace Events.Models;
 
-public enum Category //todo: make it a class
+public class Category
 {
-    Work,
-    Business,
-    Study,
-    Hobby,
-    Other
+    public string CategoryName { get; set; }
+
+    public Category(string categoryName)
+    {
+        CategoryName = categoryName;
+    }
 }

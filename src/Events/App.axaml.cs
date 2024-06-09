@@ -8,6 +8,7 @@ namespace Events;
 
 public partial class App : Application
 {
+    // private readonly EventJsonEventRepository _repo = new EventJsonEventRepository();
     public override void Initialize()
     {
         AvaloniaXamlLoader.Load(this);
