@@ -1,4 +1,6 @@
+using Avalonia;
 using Avalonia.Controls;
+using Avalonia.Markup.Xaml;
 using Events.Models;
 using Events.ViewModels;
 
@@ -10,5 +12,10 @@ public partial class CreateEventWindow : Window
     {
         InitializeComponent();
         DataContext = new CreateEventWindowViewModel(mainWindowViewModel, repository);
+    }
+
+    public void InitializeComponent()
+    {
+        AvaloniaXamlLoader.Load(this);
     }
 }

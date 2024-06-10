@@ -3,68 +3,44 @@
   "WorkspaceRootPath": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|c:\\users\\nsk18\\source\\repos\\eventscoursework\\src\\events\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\editeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\editeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\mainwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\mainwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\createeventwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\createeventwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\createeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\createeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\createeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\createeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|c:\\users\\nsk18\\source\\repos\\eventscoursework\\src\\events\\models\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\editeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\editeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\editeventwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
       "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\editeventwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\models\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\createeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\createeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\errorwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\errorwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\createeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\createeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\errorwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\errorwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\editeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\editeventwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\errorwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\errorwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\createeventwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\createeventwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\task.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}",
       "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\task.md||{EFC0BB08-EA7D-40C6-A696-C870411A895B}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\editeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\editeventwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\errorwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\errorwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewlocator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewlocator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\models\\resultextensions.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -75,16 +51,44 @@
       "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\result.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\mainwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\errorwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\errorwindow.axaml||{6D5344A2-2FCD-49DE-A09D-6A14FD1B1224}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\errorwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\errorwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|c:\\users\\nsk18\\source\\repos\\eventscoursework\\src\\events\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\event.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\mainwindowviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\views\\mainwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\views\\mainwindow.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|c:\\users\\nsk18\\source\\repos\\eventscoursework\\src\\events\\app.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\app.axaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\models\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\eventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\models\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\models\\ieventrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewmodels\\viewmodelbase.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\viewlocator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\viewlocator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\events\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{C8BE89AD-4F36-416C-8139-C31824A66AD7}|Events\\Events.csproj|solutionrelative:events\\program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -103,21 +107,22 @@
           ]
         },
         {
-          "DockedWidth": 356,
-          "SelectedChildIndex": 13,
+          "DockedWidth": 264,
+          "SelectedChildIndex": 22,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 14,
+              "DocumentIndex": 7,
               "Title": "Task.md",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Task.md",
               "RelativeDocumentMoniker": "Events\\Task.md",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Task.md",
               "RelativeToolTip": "Events\\Task.md",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAcAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001818|",
               "WhenOpened": "2024-06-08T10:38:18.17Z",
-              "IsPinned": true
+              "IsPinned": true,
+              "EditorCaption": ""
             },
             {
               "$type": "Bookmark",
@@ -133,20 +138,33 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 18,
+              "Title": "App.axaml.cs",
+              "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\App.axaml.cs",
+              "RelativeDocumentMoniker": "Events\\App.axaml.cs",
+              "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\App.axaml.cs",
+              "RelativeToolTip": "Events\\App.axaml.cs",
+              "ViewState": "AQIAAAIAAAAAAAAAAAAMwA8AAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-06-10T13:18:43.314Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
               "Title": "EventRepository.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\EventRepository.cs",
               "RelativeDocumentMoniker": "Events\\Models\\EventRepository.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\EventRepository.cs",
               "RelativeToolTip": "Events\\Models\\EventRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABMAAAAAAAAA",
+              "ViewState": "AQIAAB4AAAAAAAAAAAAAACAAAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-09T08:44:26.002Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 8,
               "Title": "ErrorWindow.axaml.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\ErrorWindow.axaml.cs",
               "RelativeDocumentMoniker": "Events\\Views\\ErrorWindow.axaml.cs",
@@ -154,49 +172,51 @@
               "RelativeToolTip": "Events\\Views\\ErrorWindow.axaml.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAYAAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T15:36:44.535Z"
+              "WhenOpened": "2024-06-08T15:36:44.535Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 17,
               "Title": "MainWindow.axaml.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\MainWindow.axaml.cs",
               "RelativeDocumentMoniker": "Events\\Views\\MainWindow.axaml.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\MainWindow.axaml.cs",
               "RelativeToolTip": "Events\\Views\\MainWindow.axaml.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-08T15:36:46.146Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 1,
               "Title": "EditEventWindow.axaml.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\EditEventWindow.axaml.cs",
               "RelativeDocumentMoniker": "Events\\Views\\EditEventWindow.axaml.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\EditEventWindow.axaml.cs",
               "RelativeToolTip": "Events\\Views\\EditEventWindow.axaml.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T15:36:43.083Z"
+              "WhenOpened": "2024-06-08T15:36:43.083Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
+              "DocumentIndex": 5,
               "Title": "CreateEventWindow.axaml.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\CreateEventWindow.axaml.cs",
               "RelativeDocumentMoniker": "Events\\Views\\CreateEventWindow.axaml.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\CreateEventWindow.axaml.cs",
               "RelativeToolTip": "Events\\Views\\CreateEventWindow.axaml.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAABAAAA",
+              "ViewState": "AQIAAAEAAAAAAAAAAAAiwAwAAAAdAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-08T15:36:41.292Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 12,
               "Title": "MainWindow.axaml",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\MainWindow.axaml",
               "RelativeDocumentMoniker": "Events\\Views\\MainWindow.axaml",
@@ -215,11 +235,12 @@
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\ErrorWindow.axaml",
               "RelativeToolTip": "Events\\Views\\ErrorWindow.axaml",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
-              "WhenOpened": "2024-06-08T15:36:32.952Z"
+              "WhenOpened": "2024-06-08T15:36:32.952Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 2,
               "Title": "EditEventWindow.axaml",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\EditEventWindow.axaml",
               "RelativeDocumentMoniker": "Events\\Views\\EditEventWindow.axaml",
@@ -231,7 +252,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 6,
               "Title": "CreateEventWindow.axaml",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Views\\CreateEventWindow.axaml",
               "RelativeDocumentMoniker": "Events\\Views\\CreateEventWindow.axaml",
@@ -243,46 +264,46 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 16,
               "Title": "MainWindowViewModel.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\MainWindowViewModel.cs",
               "RelativeDocumentMoniker": "Events\\ViewModels\\MainWindowViewModel.cs",
-              "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\MainWindowViewModel.cs*",
-              "RelativeToolTip": "Events\\ViewModels\\MainWindowViewModel.cs*",
-              "ViewState": "AQIAAFoAAAAAAAAAAAAAAHQAAAAhAAAA",
+              "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\MainWindowViewModel.cs",
+              "RelativeToolTip": "Events\\ViewModels\\MainWindowViewModel.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAMwBYAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-08T15:36:23.737Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 14,
               "Title": "ErrorWindowViewModel.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\ErrorWindowViewModel.cs",
               "RelativeDocumentMoniker": "Events\\ViewModels\\ErrorWindowViewModel.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\ErrorWindowViewModel.cs",
               "RelativeToolTip": "Events\\ViewModels\\ErrorWindowViewModel.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAUAAAAQAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAIAAAAQAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-08T15:36:23.051Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 3,
               "Title": "CreateEventWindowViewModel.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\CreateEventWindowViewModel.cs",
               "RelativeDocumentMoniker": "Events\\ViewModels\\CreateEventWindowViewModel.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\CreateEventWindowViewModel.cs",
               "RelativeToolTip": "Events\\ViewModels\\CreateEventWindowViewModel.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAwBUAAAAlAAAA",
+              "ViewState": "AQIAACEAAAAAAAAAAAAUwDUAAAAYAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-08T15:36:19.61Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 10,
               "Title": "ResultExtensions.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\ResultExtensions.cs",
               "RelativeDocumentMoniker": "Events\\Models\\ResultExtensions.cs",
@@ -290,11 +311,12 @@
               "RelativeToolTip": "Events\\Models\\ResultExtensions.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T15:36:17.663Z"
+              "WhenOpened": "2024-06-08T15:36:17.663Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 11,
               "Title": "Result.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\Result.cs",
               "RelativeDocumentMoniker": "Events\\Models\\Result.cs",
@@ -302,36 +324,38 @@
               "RelativeToolTip": "Events\\Models\\Result.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T15:36:15.349Z"
+              "WhenOpened": "2024-06-08T15:36:15.349Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 20,
               "Title": "IEventRepository.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\IEventRepository.cs",
               "RelativeDocumentMoniker": "Events\\Models\\IEventRepository.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\IEventRepository.cs",
               "RelativeToolTip": "Events\\Models\\IEventRepository.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAABAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAXAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-06-08T15:36:13.533Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 15,
               "Title": "Event.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\Event.cs",
               "RelativeDocumentMoniker": "Events\\Models\\Event.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Models\\Event.cs",
               "RelativeToolTip": "Events\\Models\\Event.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAcAAAA",
+              "ViewState": "AQIAABUAAAAAAAAAAAAAAC0AAAAFAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T15:36:10.524Z"
+              "WhenOpened": "2024-06-08T15:36:10.524Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 21,
               "Title": "ViewModelBase.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\ViewModelBase.cs",
               "RelativeDocumentMoniker": "Events\\ViewModels\\ViewModelBase.cs",
@@ -343,7 +367,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 0,
               "Title": "EditEventWindowViewModel.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewModels\\EditEventWindowViewModel.cs",
               "RelativeDocumentMoniker": "Events\\ViewModels\\EditEventWindowViewModel.cs",
@@ -351,11 +375,12 @@
               "RelativeToolTip": "Events\\ViewModels\\EditEventWindowViewModel.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T08:30:04.545Z"
+              "WhenOpened": "2024-06-08T08:30:04.545Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 9,
               "Title": "ViewLocator.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\ViewLocator.cs",
               "RelativeDocumentMoniker": "Events\\ViewLocator.cs",
@@ -363,24 +388,26 @@
               "RelativeToolTip": "Events\\ViewLocator.cs",
               "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T08:30:01.26Z"
+              "WhenOpened": "2024-06-08T08:30:01.26Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 20,
+              "DocumentIndex": 4,
               "Title": "Program.cs",
               "DocumentMoniker": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Program.cs",
               "RelativeDocumentMoniker": "Events\\Program.cs",
               "ToolTip": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Program.cs",
               "RelativeToolTip": "Events\\Program.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAuAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-06-08T08:29:57.936Z"
+              "WhenOpened": "2024-06-08T08:29:57.936Z",
+              "EditorCaption": ""
             }
           ]
         },
         {
-          "DockedWidth": 220,
+          "DockedWidth": 312,
           "SelectedChildIndex": -1,
           "Children": [
             {

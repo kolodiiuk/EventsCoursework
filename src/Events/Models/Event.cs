@@ -8,19 +8,20 @@ public class Event : INotifyPropertyChanged
 {
     private bool _isSelected;
     private string _name;
-    private DateTime _dateTime;
-    private TimeSpan _duration;
-    private string _location;
-    private string _category;
-    private string _description;
+    private DateTime? _dateTime;
+    private TimeSpan? _duration;
+    private string? _location;
+    private string? _category;
+    private string? _description;
 
     public Event(
         string name,
-        DateTime dateTime,
-        TimeSpan duration,
-        string location,
-        string category,
-        string description)
+        DateTime? dateTime,
+        TimeSpan? duration,
+        string? location,
+        string? category,
+        string? description
+        )
     {
         Name = name;
         DateTime = dateTime;
@@ -28,6 +29,7 @@ public class Event : INotifyPropertyChanged
         Location = location;
         Category = category;
         Description = description;
+        Id = Guid.NewGuid();
     }
 
     public Guid Id { get; private set; }
@@ -43,7 +45,7 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    public DateTime DateTime
+    public DateTime? DateTime
     {
         get => _dateTime;
         set
@@ -54,7 +56,7 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    public TimeSpan Duration
+    public TimeSpan? Duration
     {
         get => _duration;
         set
@@ -65,7 +67,7 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    public string Location
+    public string? Location
     {
         get => _location;
         set
@@ -76,7 +78,7 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    public string Category
+    public string? Category
     {
         get => _category;
         set
@@ -87,7 +89,7 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    public string Description
+    public string? Description
     {
         get => _description;
         set
@@ -111,12 +113,12 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    public bool AreIntersected(Event other)
-    {
-        return DateTime.Date == other.DateTime.Date &&
-               DateTime.TimeOfDay < other.DateTime.TimeOfDay + other.Duration &&
-               DateTime.TimeOfDay + Duration > other.DateTime.TimeOfDay;
-    }
+    //public bool AreIntersected(Event other)
+    //{
+    //    return DateTime.Date == other.DateTime.Date &&
+    //           DateTime.TimeOfDay < other.DateTime.TimeOfDay + other.Duration &&
+    //           DateTime.TimeOfDay + Duration > other.DateTime.TimeOfDay;
+    //}
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

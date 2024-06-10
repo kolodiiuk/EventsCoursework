@@ -7,23 +7,26 @@
         x:Class="Events.Views.CreateEventWindow"
         Title="Create new event..........."
         x:DataType="views:CreateEventWindowViewModel">
-    
-    <StackPanel>
+  <StackPanel>
         <TextBlock>Name:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Name, Mode=TwoWay}" />
         <TextBlock>Date:</TextBlock>
-        <DatePicker></DatePicker>
+		<DatePicker SelectedDate="{Binding Date, Mode=TwoWay}"  />
         <TextBlock>Time:</TextBlock>
-        <TimePicker ></TimePicker>
+        <TimePicker SelectedTime="{Binding Time, Mode=TwoWay}" />
         <TextBlock>Duration:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Duration, Mode=TwoWay}"  />
         <TextBlock>Location:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Location, Mode=TwoWay}"/>
         <TextBlock>Category:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Category, Mode=TwoWay}"/>
         <TextBlock>Description:</TextBlock>
-        <TextBox></TextBox>
-        
-        <Button Content="Create" Command="{Binding CreateEventCommand}"></Button>
-    </StackPanel>
-</Window>
+        <TextBox Text="{Binding Description, Mode=TwoWay}"/>
+
+	<Button DockPanel.Dock="Bottom"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Create"
+                Command="{Binding CreateEventCommand}"/>
+   </StackPanel> 
+  </Window>

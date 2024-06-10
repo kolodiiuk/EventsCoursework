@@ -16,17 +16,14 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     private ObservableCollection<Event> _events;
     private Event _selectedEvent;
 
-    public MainWindowViewModel()
+    public MainWindowViewModel(IEventRepository repository)
     {
-        _eventRepository = new EventRepository();
+        _eventRepository = repository;
         InitializeAsync();
 
         OpenSearchWindowCommand = ReactiveCommand.Create(OpenSearchWindow);
         OpenCreateEventWindowCommand = ReactiveCommand.Create(OpenCreateEventWindow);
         OpenEditEventWindowCommand = ReactiveCommand.Create(OpenEditEventWindow);
-        CreateEventCommand = ReactiveCommand.Create(CreateEvent);
-        UpdateEventCommand = ReactiveCommand.Create(UpdateEvent);
-        DeleteEventCommand = ReactiveCommand.Create(DeleteEvent);
     }
 
     #region Button commands
@@ -37,13 +34,7 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 
     public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; }
 
-    public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
-
-    public ReactiveCommand<Unit, Unit> UpdateEventCommand { get; }
-
-    public ReactiveCommand<Unit, Unit> DeleteEventCommand { get; }
-
-    #endregion
+     #endregion
 
     public Event SelectedEvent
     {
@@ -82,30 +73,6 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         Debug.WriteLine("Events count: " + Events.Count);
 
         return Result.Success();
-    }
-
-    // private void Event_PropertyChanged(object? sender, PropertyChangedEventArgs e)
-    // {
-    //     var @event = (Event)sender;
-    //     
-    // }
-
-    private void UpdateEvent()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void CreateEvent()
-    {
-        throw new NotImplementedException();
-    }
-
-    private void DeleteEvent()
-    {
-        if (SelectedEvent != null)
-        {
-            Events.Remove(SelectedEvent);
-        }
     }
 
     private void OpenCreateEventWindow()

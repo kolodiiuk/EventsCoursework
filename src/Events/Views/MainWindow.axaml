@@ -52,7 +52,7 @@
                         </SplitView.Pane>
                         
                         <DockPanel>
-                            <Button DockPanel.Dock="Bottom" 
+                            <Button DockPanel.Dock="Top" 
                                     Content="Create event" 
                                     HorizontalAlignment="Stretch" 
                                     HorizontalContentAlignment="Center" 

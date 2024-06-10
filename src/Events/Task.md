@@ -21,5 +21,3 @@
 6.	Event completion rate: Calculate the percentage of completed events out of the total planned events. This can provide users with insights into their productivity and task management.
 7.	Event frequency: Show the frequency of events over a specific time period, such as daily, weekly, or monthly. This can help users identify patterns in their activities.
 
-i get user input, then edit observable list, then save to file on save button click
-```

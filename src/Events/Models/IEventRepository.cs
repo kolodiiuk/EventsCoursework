@@ -11,4 +11,7 @@ public interface IEventRepository
     Task<Result<IEnumerable<Event>>> GetEventListByConditionAsync(Func<Event, bool> condition);
     Task<Result> UpdateEventAsync(Event @event, Func<Event, bool> condition);
     Task<Result> DeleteEventAsync(Func<Event, bool> condition);
+    event Action<Event> EventAdded;
+    event Action<Event> EventUpdated;
+    event Action<Event> EventDeleted;
 }

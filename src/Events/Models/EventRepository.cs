@@ -17,14 +17,31 @@ public class EventRepository : IEventRepository //todo: adjust result
         WriteIndented = true,
     };
 
-
-
     public EventRepository(string filePath = null)
     {
         _filePath = filePath ?? Path.Combine(
             AppDomain.CurrentDomain.BaseDirectory, $"Events.json");
 
         EnsureFileExists();
+    }
+
+    public event Action<Event> EventAdded;
+    public event Action<Event> EventUpdated;
+    public event Action<Event> EventDeleted;
+
+    protected virtual void OnEventAdded(Event @event)
+    {
+        EventAdded?.Invoke(@event);
+    }
+
+    protected virtual void OnEventUpdated(Event @event)
+    {
+        EventUpdated?.Invoke(@event);
+    }
+
+    protected virtual void OnEventDeleted(Event @event)
+    {
+        EventDeleted?.Invoke(@event);
     }
 
     private void EnsureFileExists()
