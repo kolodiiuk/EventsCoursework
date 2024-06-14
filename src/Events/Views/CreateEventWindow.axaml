@@ -3,11 +3,14 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Events.Views"
-        mc:Ignorable="d" d:DesignWidth="300" d:DesignHeight="300"
+        xmlns:local="clr-namespace:Events.Models"
+        xmlns:viewModels="clr-namespace:Events.ViewModels"
+        mc:Ignorable="d" Width="600" Height="385"
         x:Class="Events.Views.CreateEventWindow"
-        Title="Create new event..........."
+        Title="Create new event"
         x:DataType="views:CreateEventWindowViewModel">
-  <StackPanel>
+	
+	<StackPanel>
         <TextBlock>Name:</TextBlock>
         <TextBox Text="{Binding Name, Mode=TwoWay}" />
         <TextBlock>Date:</TextBlock>
@@ -15,7 +18,8 @@
         <TextBlock>Time:</TextBlock>
         <TimePicker SelectedTime="{Binding Time, Mode=TwoWay}" />
         <TextBlock>Duration:</TextBlock>
-        <TextBox Text="{Binding Duration, Mode=TwoWay}"  />
+        <TextBox Text="{Binding Duration, Mode=TwoWay, 
+        Converter={x:Static local:TimeSpanTypeConverter.Instance}}"  />
         <TextBlock>Location:</TextBlock>
         <TextBox Text="{Binding Location, Mode=TwoWay}"/>
         <TextBlock>Category:</TextBlock>

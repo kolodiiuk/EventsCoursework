@@ -13,21 +13,21 @@ build_property.PlatformNeutralAssembly =
 build_property.EnforceExtendedAnalyzerRules = 
 build_property._SupportedPlatformList = Linux,macOS,Windows
 build_property.RootNamespace = Events
-build_property.ProjectDir = C:\Users\nsk18\source\repos\EventsCoursework\src\Events\
+build_property.ProjectDir = /home/nk/RiderProjects/EventsCoursework/src/Events/
 build_property.EnableComHosting = 
 build_property.EnableGeneratedComInterfaceComImportInterop = 
 
-[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/App.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/App.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/CreateEventWindow.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/CreateEventWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/EditEventWindow.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/EditEventWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/ErrorWindow.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/ErrorWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[C:/Users/nsk18/source/repos/EventsCoursework/src/Events/Views/MainWindow.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

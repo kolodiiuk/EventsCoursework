@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Reactive;
+using System.Threading.Tasks;
 
 namespace Events.Views;
 
@@ -23,10 +24,12 @@ public class CreateEventWindowViewModel : ViewModelBase
     private string _description;
     private string _errorMessage;
 
-    public CreateEventWindowViewModel(MainWindowViewModel mainWindowViewModel, IEventRepository repository)
+    public CreateEventWindowViewModel(
+        MainWindowViewModel mainWindowViewModel, IEventRepository repository)
     {
         _mainWindowViewModel = mainWindowViewModel;
         _eventRepository = repository;
+        
         CreateEventCommand = ReactiveCommand.Create(CreateEvent);
     }
 
@@ -73,14 +76,12 @@ public class CreateEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
-    public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
-
-
-    private void CreateEvent()
+    public ReactiveCommand<Unit, Task> CreateEventCommand { get; }
+    
+    private async Task CreateEvent()
     {
         if (string.IsNullOrWhiteSpace(Name))
         {
-            //ErrorMessage = "Please fill in name field";
             return;
         }
 
@@ -98,15 +99,8 @@ public class CreateEventWindowViewModel : ViewModelBase
 
         Event newEvent = new Event(
             Name, dateTime, duration, Location, Category, Description);
-        _eventRepository.AddEventAsync(newEvent);
+        
+        await _eventRepository.AddEventAsync(newEvent);
         _mainWindowViewModel.Events.Add(newEvent);
-
-        Debug.WriteLine(Name);
-        Debug.WriteLine(Date);
-        Debug.WriteLine(Time);
-        Debug.WriteLine(Duration);
-        Debug.WriteLine(Location);
-        Debug.WriteLine(Category);
-        Debug.WriteLine(Description);
     }
 }

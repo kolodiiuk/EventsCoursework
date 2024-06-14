@@ -7,6 +7,7 @@
         x:Class="Events.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
         Icon="/Assets/avalonia-logo.ico"
+        WindowStartupLocation="CenterScreen"
         Title="Events">
 
     <DockPanel>
@@ -17,13 +18,10 @@
                 <MenuItem Header="Save" />
                 <MenuItem Header="Exit" />
             </MenuItem>
-            <MenuItem Header="Edit">
-                <MenuItem Header="Undo" />
-                <MenuItem Header="Redo" />
-            </MenuItem>
         </Menu>
-        <TabControl Margin="5">
-            <TabItem Header="Events">
+        
+        <TabControl Margin="1">
+            <TabItem Header="Main">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
 
                     <SplitView
@@ -35,44 +33,54 @@
                             <StackPanel DockPanel.Dock="Left" Width="170">
                                 <TextBlock>Search</TextBlock>
                                 <TextBox></TextBox>
-                                <Button Content="Search by filters" HorizontalAlignment="Stretch" Command="{Binding OpenSearchWindowCommand}"></Button>
-                                <Button Content="All events" Margin="10" HorizontalAlignment="Stretch"></Button>
-                                <Button Content="Today" Margin="10" HorizontalAlignment="Stretch"></Button>
-                                <Button Content="Tomorrow" Margin="10" HorizontalAlignment="Stretch"></Button>
-                                <Button Content="The day after tomorrow" Margin="10" HorizontalAlignment="Stretch"></Button>
-                                <CalendarDatePicker HorizontalAlignment="Stretch"></CalendarDatePicker>
-                                <Button Content="Custom date"  HorizontalAlignment="Stretch" />
-                                
-                            <Button DockPanel.Dock="Bottom" 
-                                    Content="Edit event" 
+                                <Button Content="Search by filters" 
+                                        HorizontalAlignment="Stretch" 
+                                        HorizontalContentAlignment="Center"
+                                        Command="{Binding OpenSearchWindowCommand}"></Button>
+                            <Button DockPanel.Dock="Top" 
+                                    Content="Create event" 
                                     HorizontalAlignment="Stretch" 
-                                    HorizontalContentAlignment="Center" 
-                                    Command="{Binding OpenEditEventWindowCommand}"/>
+                                    HorizontalContentAlignment="Center"
+                                    Command="{Binding OpenCreateEventWindowCommand}" />
+                            <Button DockPanel.Dock="Bottom"
+                                    Content="Update event"
+                                    HorizontalAlignment="Stretch"
+                                    HorizontalContentAlignment="Center"
+                                    Command="{Binding OpenEditEventWindowCommand}" />
                             </StackPanel>
                         </SplitView.Pane>
                         
                         <DockPanel>
-                            <Button DockPanel.Dock="Top" 
-                                    Content="Create event" 
-                                    HorizontalAlignment="Stretch" 
-                                    HorizontalContentAlignment="Center" 
-                                    Command="{Binding OpenCreateEventWindowCommand}"/>
-							<DataGrid Margin="20" 
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Top">
+                                <ComboBox HorizontalAlignment="Stretch">
+                                    <ComboBoxItem>All</ComboBoxItem>
+                                    <ComboBoxItem>Today</ComboBoxItem>
+                                    <ComboBoxItem>Tomorrow</ComboBoxItem>
+                                    <ComboBoxItem>The day after tomorrow</ComboBoxItem>
+                                </ComboBox>
+                                <DatePicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
+                                <Button Content="Show events"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        VerticalAlignment="Stretch" />
+                            </StackPanel>
+                            
+                            <DataGrid Margin="20"
                                       ItemsSource="{Binding Events}"
                                       GridLinesVisibility="All"
-                                      BorderThickness="1" 
-                                      BorderBrush="Gray" 
+                                      BorderThickness="1"
+                                      BorderBrush="Black"
                                       SelectedItem="{Binding SelectedEvent}">
                                 <DataGrid.Columns>
-                                    <DataGridCheckBoxColumn Header="Select" Binding="{Binding IsSelected}" />
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
-                                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}"/>
-                                    <DataGridTextColumn Header="Location" Binding="{Binding Location}"/>
-                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}"/>
-                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}"/>
+                                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" />
+                                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
                                 </DataGrid.Columns>
                             </DataGrid>
+                      
                         </DockPanel>
 
                     </SplitView>
@@ -82,10 +90,7 @@
             <TabItem Header="Stats">
                 <TextBlock>tab2</TextBlock>
             </TabItem>
-
-            <!-- <TabItem Header="Settings"> -->
-            <!--     <TextBlock>tab3</TextBlock> -->
-            <!-- </TabItem> -->
+            
         </TabControl>
 
     </DockPanel>

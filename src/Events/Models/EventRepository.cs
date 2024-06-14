@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Events.Models;
 
-public class EventRepository : IEventRepository //todo: adjust result
+public class EventRepository : IEventRepository
 {
     private readonly string _filePath;
 
@@ -23,25 +24,6 @@ public class EventRepository : IEventRepository //todo: adjust result
             AppDomain.CurrentDomain.BaseDirectory, $"Events.json");
 
         EnsureFileExists();
-    }
-
-    public event Action<Event> EventAdded;
-    public event Action<Event> EventUpdated;
-    public event Action<Event> EventDeleted;
-
-    protected virtual void OnEventAdded(Event @event)
-    {
-        EventAdded?.Invoke(@event);
-    }
-
-    protected virtual void OnEventUpdated(Event @event)
-    {
-        EventUpdated?.Invoke(@event);
-    }
-
-    protected virtual void OnEventDeleted(Event @event)
-    {
-        EventDeleted?.Invoke(@event);
     }
 
     private void EnsureFileExists()
@@ -105,7 +87,8 @@ public class EventRepository : IEventRepository //todo: adjust result
     //    }
     //}
 
-    public async Task<Result<IEnumerable<Event>>> GetEventListByConditionAsync(Func<Event, bool> condition)
+    public async Task<Result<IEnumerable<Event>>> GetEventListByConditionAsync(
+        Func<Event, bool> condition)
     {
         try
         {
@@ -140,14 +123,23 @@ public class EventRepository : IEventRepository //todo: adjust result
                 return Result.Fail("Event not found.");
             }
 
-            events.Remove(eventToUpdate);
-            events.Add(@event);
+            eventToUpdate.Id = @event.Id;
+            eventToUpdate.Name = @event.Name;
+            eventToUpdate.DateTime = @event.DateTime;
+            eventToUpdate.Duration = @event.Duration;
+            eventToUpdate.Location = @event.Location;
+            eventToUpdate.Category = @event.Category;
+            eventToUpdate.Description = @event.Description;
+
+            Debug.WriteLine(eventToUpdate.Name);
             await WriteToFileAsync(events);
 
+            Debug.WriteLine("Success");
             return Result.Success(true);
         }
         catch (Exception ex)
         {
+            Debug.WriteLine("Error updating event.");
             return Result.Fail("Error updating event.");
         }
     }
@@ -187,7 +179,7 @@ public class EventRepository : IEventRepository //todo: adjust result
         return items;
     }
 
-    private async Task WriteToFileAsync(List<Event> items) //todo: make it return Result?
+    private async Task WriteToFileAsync(List<Event> items) 
     {
         using var stream = File.Create(_filePath);
         await JsonSerializer.SerializeAsync(stream, items, _options);

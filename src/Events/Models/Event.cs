@@ -14,6 +14,11 @@ public class Event : INotifyPropertyChanged
     private string? _category;
     private string? _description;
 
+    public Event()
+    {
+        
+    }
+    
     public Event(
         string name,
         DateTime? dateTime,
@@ -32,7 +37,7 @@ public class Event : INotifyPropertyChanged
         Id = Guid.NewGuid();
     }
 
-    public Guid Id { get; private set; }
+    public Guid Id { get; set; }
 
     public string Name
     {
@@ -113,12 +118,12 @@ public class Event : INotifyPropertyChanged
         }
     }
 
-    //public bool AreIntersected(Event other)
-    //{
-    //    return DateTime.Date == other.DateTime.Date &&
-    //           DateTime.TimeOfDay < other.DateTime.TimeOfDay + other.Duration &&
-    //           DateTime.TimeOfDay + Duration > other.DateTime.TimeOfDay;
-    //}
+    // public bool AreIntersected(Event other)
+    // {
+    //     return DateTime.Date == other.DateTime.Date &&
+    //            DateTime.TimeOfDay < other.DateTime.TimeOfDay + other.Duration &&
+    //            DateTime.TimeOfDay + Duration > other.DateTime.TimeOfDay;
+    // }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 

@@ -3,27 +3,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Events.ViewModels"
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        xmlns:local="clr-namespace:Avalonia.Markup.Xaml.Converters;assembly=Avalonia.Markup.Xaml"
+        xmlns:models="clr-namespace:Events.Models"
+        mc:Ignorable="d" Width="600" Height="385"
         x:Class="Events.Views.EditEventWindow"
         Title="Edit event"
         x:DataType="viewModels:EditEventWindowViewModel">
     
     <StackPanel>
         <TextBlock>Name:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Name, Mode=TwoWay}" />
         <TextBlock>Date:</TextBlock>
-        <DatePicker></DatePicker>
+        <DatePicker SelectedDate="{Binding Date, Mode=TwoWay}" />
         <TextBlock>Time:</TextBlock>
-        <TimePicker ></TimePicker>
+        <TimePicker SelectedTime="{Binding Time, Mode=TwoWay}" ClockIdentifier="24HourClock" />
         <TextBlock>Duration:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Duration, Mode=TwoWay, 
+        Converter={x:Static models:TimeSpanTypeConverter.Instance}}"  />
         <TextBlock>Location:</TextBlock>
-        <TextBox></TextBox>
+        <TextBox Text="{Binding Location, Mode=TwoWay}"/>
         <TextBlock>Category:</TextBlock>
-        <ComboBox></ComboBox>
+        <TextBox Text="{Binding Category, Mode=TwoWay}"/>
         <TextBlock>Description:</TextBlock>
-        <TextBox></TextBox>
-        
-        <Button Content="Save changes" Command="{Binding EditEventCommand}"></Button>
+        <TextBox Text="{Binding Description, Mode=TwoWay}"/>
+
+        <Button DockPanel.Dock="Bottom"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Save changes"
+                Command="{Binding EditEventCommand}"/>
+        <Button DockPanel.Dock="Bottom"
+                HorizontalAlignment="Stretch"
+                HorizontalContentAlignment="Center"
+                Content="Delete"
+                Command="{Binding DeleteEventCommand}"/>
     </StackPanel>
 </Window>
