@@ -56,14 +56,15 @@
                                           SelectedItem="{Binding SelectedFilter}">
                                 </ComboBox>
                                 <TextBlock>From: </TextBlock>
-                                <DatePicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
+                                <DatePicker x:Name="FromDatePicker" SelectedDate="{Binding DateToFilterFrom, Mode=TwoWay} " 
+                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
                                 <TextBlock>To: </TextBlock>
-                                <DatePicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
+                                <DatePicker x:Name="ToDatePicker" SelectedDate="{Binding DateToFilterTo, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
                                     <Button Content="Show events"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Center"
                                             VerticalAlignment="Stretch"
-                                            Command="{Binding FilterEventsByDateCommand}" CommandParameter="SelectedFilter" />
+                                            Command="{Binding FilterEventsByDateCommand}" />
                             </StackPanel>
 
                             <DataGrid Margin="20"

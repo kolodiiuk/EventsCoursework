@@ -14,6 +14,11 @@ public partial class CreateEventWindow : Window
         DataContext = new CreateEventWindowViewModel(mainWindowViewModel.AllEventsFromCurrFile, repository);
     }
 
+    public CreateEventWindow()
+    {
+        InitializeComponent();
+    }
+
     public void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);

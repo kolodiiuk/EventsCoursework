@@ -37,23 +37,17 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         OpenCreateEventWindowCommand = ReactiveCommand.Create(OpenCreateEventWindow);
         OpenEditEventWindowCommand = ReactiveCommand.Create(OpenEditEventWindow);
         FilterEventsCommand = ReactiveCommand.Create<string>(FilterEventsByComboboxValues);
-        FilterEventsByDateCommand = ReactiveCommand.Create<DateRange>(FilterEventsByDateRange);
+        FilterEventsByDateCommand = ReactiveCommand.Create(FilterEventsByDateRange);
         OpenFileCommand = ReactiveCommand.Create(ShowOpenFileDialog);
     }
 
-    public class DateRange
-    {
-        public DateTimeOffset? From { get; set; }
-        public DateTimeOffset? To { get; set; }
-    }
-    
     #region Button commands
 
     public ReactiveCommand<Unit, Unit> OpenSearchWindowCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; }
     public ReactiveCommand<string, Unit> FilterEventsCommand { get; }
-    public ReactiveCommand<DateRange, Unit> FilterEventsByDateCommand { get; }
+    public ReactiveCommand<Unit, Unit> FilterEventsByDateCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
 
     #endregion
@@ -177,33 +171,32 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
-    // private void FilterEventsByDateRange()
-    private void FilterEventsByDateRange(DateRange range)
+    private void FilterEventsByDateRange()
     {
-        if (range.From.HasValue && range.To.HasValue)
+        if (DateToFilterFrom.HasValue && DateToFilterTo.HasValue)
         {
             AllFilteredEvents =
                 new ObservableCollection<Event>(
                     AllEventsFromCurrFile.Where(
                         e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date >= range.From.Value.Date
-                             && e.DateTime.Value.Date <= range.To.Value.Date));
+                             && e.DateTime.Value.Date >= DateToFilterFrom.Value.Date
+                             && e.DateTime.Value.Date <= DateToFilterTo.Value.Date));
         }
-        else if (range.From.HasValue)
+        else if (DateToFilterFrom.HasValue)
         {
             AllFilteredEvents =
                 new ObservableCollection<Event>(
                     AllEventsFromCurrFile.Where(
                         e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date >= range.From.Value.Date));
+                             && e.DateTime.Value.Date >= DateToFilterFrom.Value.Date));
         }
-        else if (range.To.HasValue)
+        else if (DateToFilterTo.HasValue)
         {
             AllFilteredEvents =
                 new ObservableCollection<Event>(
                     AllEventsFromCurrFile.Where(
                         e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date <= range.To.Value.Date));
+                             && e.DateTime.Value.Date <= DateToFilterTo.Value.Date));
         }
     }
     
@@ -233,6 +226,7 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             if (result != null && result.Length > 0)
             {
                 _filepath = result[0];
+                Debug.WriteLine(_filepath);
             }
         }
     }
@@ -247,8 +241,8 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             { DataContext = createEventWindowViewModel };
 
         createEventWindow.Show();
-        // var result = NotificationManager.ShowNotification("hello", "yopta");
-        // Debug.WriteLine(result.Failure ? result.Error : "success");
+        //var result = NotificationManager.ShowNotification("hello", "yopta");
+        //Debug.WriteLine(result.Failure ? result.Error : "success");
     }
 
     private void OpenEditEventWindow()

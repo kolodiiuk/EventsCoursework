@@ -20,13 +20,3 @@
 5.	Overlapping events: Identify any overlapping events and display them as a statistic. This can help users avoid scheduling conflicts and ensure efficient use of their time.
 6.	Event completion rate: Calculate the percentage of completed events out of the total planned events. This can provide users with insights into their productivity and task management.
 7.	Event frequency: Show the frequency of events over a specific time period, such as daily, weekly, or monthly. This can help users identify patterns in their activities.
-      // var dialog = new OpenFileDialog
-      // {
-      //     Title = "Open File",
-      //     Filters = new List<FileDialogFilter>
-      //     {
-      //         new FileDialogFilter { Name = "Library files", Extensions = new List<string> { "library" } },
-      //     },
-      //     AllowMultiple = false,
-      // };
-      // var result = dialog.ShowAsync(createEventWindow);

@@ -4581,24 +4581,26 @@
     ]
   },
   "packageFolders": {
-    "/home/nk/.nuget/packages/": {}
+    "C:\\Users\\nsk18\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/nk/RiderProjects/EventsCoursework/src/Events/Events.csproj",
+      "projectUniqueName": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Events.csproj",
       "projectName": "Events",
-      "projectPath": "/home/nk/RiderProjects/EventsCoursework/src/Events/Events.csproj",
-      "packagesPath": "/home/nk/.nuget/packages/",
-      "outputPath": "/home/nk/RiderProjects/EventsCoursework/src/Events/obj/",
+      "projectPath": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\Events.csproj",
+      "packagesPath": "C:\\Users\\nsk18\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\nsk18\\source\\repos\\EventsCoursework\\src\\Events\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "/home/nk/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\nsk18\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -4611,6 +4613,11 @@
         "warnAsError": [
           "NU1605"
         ]
+      },
+      "restoreAuditProperties": {
+        "enableAudit": "true",
+        "auditLevel": "low",
+        "auditMode": "direct"
       }
     },
     "frameworks": {
@@ -4662,7 +4669,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/lib64/dotnet/sdk/8.0.104/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.205/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
