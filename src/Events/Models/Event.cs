@@ -14,10 +14,7 @@ public class Event : INotifyPropertyChanged
     private string? _category;
     private string? _description;
 
-    public Event()
-    {
-        
-    }
+    public Event() {}
     
     public Event(
         string name,
@@ -102,19 +99,6 @@ public class Event : INotifyPropertyChanged
             if (value == _description) return;
             _description = value;
             OnPropertyChanged();
-        }
-    }
-
-    public bool IsSelected
-    {
-        get { return _isSelected; }
-        set
-        {
-            if (_isSelected != value)
-            {
-                _isSelected = value;
-                OnPropertyChanged();
-            }
         }
     }
 

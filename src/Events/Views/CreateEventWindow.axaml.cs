@@ -11,7 +11,7 @@ public partial class CreateEventWindow : Window
     public CreateEventWindow(MainWindowViewModel mainWindowViewModel, IEventRepository repository)
     {
         InitializeComponent();
-        DataContext = new CreateEventWindowViewModel(mainWindowViewModel, repository);
+        DataContext = new CreateEventWindowViewModel(mainWindowViewModel.AllEventsFromCurrFile, repository);
     }
 
     public void InitializeComponent()

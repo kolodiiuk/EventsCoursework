@@ -1,0 +1,37 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:Events.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Events.Views.SearchWindow"
+        Title="SearchWindow"
+        x:DataType="views:SearchWindow">
+
+    <StackPanel>
+        <StackPanel Orientation="Horizontal">
+            <TextBlock Text="Search by Name:" VerticalAlignment="Center" Margin="5"/>
+            <TextBox Width="200" Margin="5" x:Name="NameFilter"/>
+            <TextBlock Text=""></TextBlock>
+            <TextBlock Text="Search by Date:" VerticalAlignment="Center" Margin="5"/>
+            <DatePicker Width="200" Margin="5" x:Name="DateFilter"/>
+            <Button Content="Search" Margin="5" x:Name="SearchButton"/>
+        </StackPanel>
+
+        <!-- <DataGrid Margin="20" -->
+        <!--           ItemsSource="{Binding FilteredEvents}" -->
+        <!--           GridLinesVisibility="All" -->
+        <!--           BorderThickness="1" -->
+        <!--           BorderBrush="Black" -->
+        <!--           SelectedItem="{Binding SelectedEvent}"> -->
+        <!--     <DataGrid.Columns> -->
+        <!--         <DataGridTextColumn Header="Name" Binding="{Binding Name}" /> -->
+        <!--         <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" /> -->
+        <!--         <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" /> -->
+        <!--         <DataGridTextColumn Header="Location" Binding="{Binding Location}" /> -->
+        <!--         <DataGridTextColumn Header="Description" Binding="{Binding Description}" /> -->
+        <!--         <DataGridTextColumn Header="Category" Binding="{Binding Category}" /> -->
+        <!--     </DataGrid.Columns> -->
+        <!-- </DataGrid> -->
+    </StackPanel>
+</Window>

@@ -2,9 +2,11 @@ using Events.Models;
 using Events.ViewModels;
 using ReactiveUI;
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
+using System.Linq;
 using System.Reactive;
 using System.Threading.Tasks;
 
@@ -13,7 +15,6 @@ namespace Events.Views;
 public class CreateEventWindowViewModel : ViewModelBase
 {
     private readonly IEventRepository _eventRepository;
-    private readonly MainWindowViewModel _mainWindowViewModel;
 
     private string _name;
     private DateTimeOffset? _date;
@@ -23,14 +24,15 @@ public class CreateEventWindowViewModel : ViewModelBase
     private string _category;
     private string _description;
     private string _errorMessage;
+    private ObservableCollection<Event> _eventsToUpdate;
 
     public CreateEventWindowViewModel(
-        MainWindowViewModel mainWindowViewModel, IEventRepository repository)
+        ObservableCollection<Event> eventsToUpdate, IEventRepository repository)
     {
-        _mainWindowViewModel = mainWindowViewModel;
         _eventRepository = repository;
-        
-        CreateEventCommand = ReactiveCommand.Create(CreateEvent);
+        _eventsToUpdate = eventsToUpdate;
+
+        CreateEventCommand = ReactiveCommand.CreateFromTask(CreateEvent);
     }
 
     [Required]
@@ -76,7 +78,7 @@ public class CreateEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
-    public ReactiveCommand<Unit, Task> CreateEventCommand { get; }
+    public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
     
     private async Task CreateEvent()
     {
@@ -97,10 +99,29 @@ public class CreateEventWindowViewModel : ViewModelBase
             duration = Duration.Value;
         }
 
+        var newEventStart = dateTime;
+        var newEventEnd = dateTime + duration;
+        var events = await _eventRepository.GetEventListByConditionAsync(e => true);
+        var intersectingEvent = events.Value.FirstOrDefault(e =>
+        {
+            var eventStart = e.DateTime;
+            var eventEnd = e.DateTime + e.Duration;
+            return newEventStart >= eventStart && newEventStart <= eventEnd ||
+                   newEventEnd >= eventStart && newEventEnd <= eventEnd ||
+                   eventStart >= newEventStart && eventStart <= newEventEnd ||
+                   eventEnd >= newEventStart && eventEnd <= newEventEnd;
+        });
+        
+        if (intersectingEvent != null)
+        {
+            //todo: implement handling of intersecting events
+        }
+
         Event newEvent = new Event(
             Name, dateTime, duration, Location, Category, Description);
         
         await _eventRepository.AddEventAsync(newEvent);
-        _mainWindowViewModel.Events.Add(newEvent);
+        // _mainWindowViewModel.AllEventsFromCurrFile.Add(newEvent);
+        _eventsToUpdate.Add(newEvent);
     }
 }

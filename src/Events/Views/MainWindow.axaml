@@ -14,9 +14,7 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="New" />
-                <MenuItem Header="Open" />
-                <MenuItem Header="Save" />
-                <MenuItem Header="Exit" />
+                <MenuItem Header="Open" Command="{Binding OpenFileCommand}"/>
             </MenuItem>
         </Menu>
         
@@ -49,24 +47,27 @@
                                     Command="{Binding OpenEditEventWindowCommand}" />
                             </StackPanel>
                         </SplitView.Pane>
-                        
+
                         <DockPanel>
                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Top">
-                                <ComboBox HorizontalAlignment="Stretch">
-                                    <ComboBoxItem>All</ComboBoxItem>
-                                    <ComboBoxItem>Today</ComboBoxItem>
-                                    <ComboBoxItem>Tomorrow</ComboBoxItem>
-                                    <ComboBoxItem>The day after tomorrow</ComboBoxItem>
+                                <ComboBox x:Name="filterComboBox" 
+                                    HorizontalAlignment="Stretch"
+                                          ItemsSource="{Binding FilterOptions}"
+                                          SelectedItem="{Binding SelectedFilter}">
                                 </ComboBox>
+                                <TextBlock>From: </TextBlock>
                                 <DatePicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
-                                <Button Content="Show events"
-                                        HorizontalAlignment="Stretch"
-                                        HorizontalContentAlignment="Center"
-                                        VerticalAlignment="Stretch" />
+                                <TextBlock>To: </TextBlock>
+                                <DatePicker HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
+                                    <Button Content="Show events"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            VerticalAlignment="Stretch"
+                                            Command="{Binding FilterEventsByDateCommand}" CommandParameter="SelectedFilter" />
                             </StackPanel>
-                            
+
                             <DataGrid Margin="20"
-                                      ItemsSource="{Binding Events}"
+                                      ItemsSource="{Binding AllFilteredEvents}"
                                       GridLinesVisibility="All"
                                       BorderThickness="1"
                                       BorderBrush="Black"

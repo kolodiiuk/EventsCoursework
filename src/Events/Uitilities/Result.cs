@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 
-namespace Events.Models;
+namespace Events.Utilities;
 
 public class Result
 {

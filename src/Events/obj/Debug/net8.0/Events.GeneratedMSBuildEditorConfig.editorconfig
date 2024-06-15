@@ -26,8 +26,8 @@ build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 [/home/nk/RiderProjects/EventsCoursework/src/Events/Views/EditEventWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/ErrorWindow.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/MainWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml
 
-[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/MainWindow.axaml]
+[/home/nk/RiderProjects/EventsCoursework/src/Events/Views/SearchWindow.axaml]
 build_metadata.AdditionalFiles.SourceItemGroup = AvaloniaXaml

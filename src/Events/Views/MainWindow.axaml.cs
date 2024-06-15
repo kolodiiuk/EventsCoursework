@@ -1,4 +1,8 @@
+using System;
+using System.Diagnostics;
 using Avalonia.Controls;
+using Avalonia.Controls.Notifications;
+using Events.Models;
 
 namespace Events.Views;
 
@@ -7,10 +11,11 @@ public partial class MainWindow : Window
     public MainWindow()
     {
         InitializeComponent();
+        this.Closed += MainWindow_Closed;
     }
 
-    protected override void OnClosing(WindowClosingEventArgs e)
+    private void MainWindow_Closed(object? sender, EventArgs e)
     {
-        base.OnClosing(e);
+        Environment.Exit(0);
     }
 }

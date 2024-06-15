@@ -5,8 +5,10 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Events.Models;
+using Events.Utilities;
 
-namespace Events.Models;
+namespace Events.FileAccess;
 
 public class EventRepository : IEventRepository
 {
@@ -74,19 +76,6 @@ public class EventRepository : IEventRepository
         }
     }
 
-    //public async Task<Result<IEnumerable<Event>>> GetAllEventsAsync()
-    //{
-    //    try
-    //    {
-    //        var events = await ReadFromFileAsync();
-    //        return Result.Success<IEnumerable<Event>>(events);
-    //    }
-    //    catch (Exception ex)
-    //    {
-    //        return Result.Fail<IEnumerable<Event>>("Error retrieving events.");
-    //    }
-    //}
-
     public async Task<Result<IEnumerable<Event>>> GetEventListByConditionAsync(
         Func<Event, bool> condition)
     {
@@ -131,10 +120,8 @@ public class EventRepository : IEventRepository
             eventToUpdate.Category = @event.Category;
             eventToUpdate.Description = @event.Description;
 
-            Debug.WriteLine(eventToUpdate.Name);
             await WriteToFileAsync(events);
 
-            Debug.WriteLine("Success");
             return Result.Success(true);
         }
         catch (Exception ex)

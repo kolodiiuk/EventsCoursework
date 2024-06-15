@@ -1,4 +1,5 @@
 using System;
+using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
 using System.Linq;
@@ -12,7 +13,7 @@ namespace Events.ViewModels;
 public class EditEventWindowViewModel : ViewModelBase
 {
     private readonly IEventRepository _repository;
-    private readonly MainWindowViewModel _mainWindowViewModel;
+    private readonly ObservableCollection<Event> _eventsCollection;
     private string _name;
     private DateTimeOffset? _date;
     private TimeSpan? _time;
@@ -21,12 +22,12 @@ public class EditEventWindowViewModel : ViewModelBase
     private string _category;
     private string _description;
     
-    public EditEventWindowViewModel(MainWindowViewModel mainWindowViewModel, 
+    public EditEventWindowViewModel(ObservableCollection<Event> eventsCollection, 
         Event selectedEvent, IEventRepository repository)
     {
         SelectedEvent = selectedEvent;
         _repository = repository;
-        _mainWindowViewModel = mainWindowViewModel;
+        _eventsCollection = eventsCollection;
         _repository = repository;
         
         EditEventCommand = ReactiveCommand.Create(EditEventAsync);
@@ -117,7 +118,7 @@ public class EditEventWindowViewModel : ViewModelBase
 
         await _repository.UpdateEventAsync(SelectedEvent, 
             e => e.Id == SelectedEvent.Id);
-        var eventToUpdate = _mainWindowViewModel.Events.First(
+        var eventToUpdate = _eventsCollection.First(
             e => e.Id == SelectedEvent.Id);
 
         eventToUpdate.Name = Name;
@@ -131,7 +132,7 @@ public class EditEventWindowViewModel : ViewModelBase
     private async Task DeleteEventAsync()
     {
         await _repository.DeleteEventAsync(e => e.Id == SelectedEvent.Id);
-        _mainWindowViewModel.Events.Remove(SelectedEvent);
+        _eventsCollection.Remove(SelectedEvent);
     }
     
     private void InitializeProperties()

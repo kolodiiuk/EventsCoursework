@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Events.Models;
+namespace Events.Utilities;
 
 public static class ResultExtensions
 {
