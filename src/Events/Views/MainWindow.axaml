@@ -43,11 +43,6 @@
                                                 SelectedDate="{Binding DateToFilterTo, Mode=TwoWay}"
                                                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
                                     </DatePicker>
-                                    <Button Content="Show events"
-                                            HorizontalAlignment="Stretch"
-                                            HorizontalContentAlignment="Center"
-                                            VerticalAlignment="Stretch"
-                                            Command="{Binding FilterEventsByDateCommand}" />
                                     <TextBlock>Time:</TextBlock>
                                     <TimePicker SelectedTime="{Binding TimeFilter, Mode=TwoWay}" />
                                     <TextBlock>Duration:</TextBlock>
@@ -62,10 +57,14 @@
                                                      Text="{Binding CategoryFilter, Mode=TwoWay}" />
                                     <TextBlock>Description:</TextBlock>
                                     <TextBox Text="{Binding DescriptionFilter, Mode=TwoWay}" />
+                                    <StackPanel HorizontalAlignment="Center">
+                                        <TextBlock>Is done:</TextBlock>
+                                        <CheckBox IsChecked="{Binding DoneFilter, Mode=TwoWay}" />
+                                    </StackPanel>
                                     <Button Content="Search"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Center"
-                                            >
+                                            Command="{Binding FilterEventSearchButtonCommand}">
                                     </Button>
                                 </StackPanel>
                             </StackPanel>
@@ -100,6 +99,7 @@
                                     <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
                                     <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                                    <DataGridCheckBoxColumn Header="Done" Binding="{Binding Done}"></DataGridCheckBoxColumn>
                                 </DataGrid.Columns>
                             </DataGrid>
 
@@ -126,22 +126,23 @@
             </TabItem>
 
             <TabItem Header="Upcoming events">
- <DataGrid Margin="20"
-                                      ItemsSource="{Binding AllFilteredEvents}"
-                                      GridLinesVisibility="All"
-                                      BorderThickness="1"
-                                      BorderBrush="Black"
-                                      SelectedItem="{Binding SelectedEvent}"
-                                      Grid.Row="1">
-                                <DataGrid.Columns>
-                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
-                                    <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
-                                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" />
-                                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
-                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
-                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
-                                </DataGrid.Columns>
-                            </DataGrid>
+                <DataGrid Margin="20"
+                          ItemsSource="{Binding AllFilteredEvents}"
+                          GridLinesVisibility="All"
+                          BorderThickness="1"
+                          BorderBrush="Black"
+                          SelectedItem="{Binding SelectedEvent}"
+                          Grid.Row="1">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                        <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
+                        <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" />
+                        <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
+                        <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                        <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                        <DataGridCheckBoxColumn Header="Done" Binding="{Binding Done}"></DataGridCheckBoxColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
             </TabItem>
 
             <TabItem Header="Past events">
@@ -161,6 +162,7 @@
                             <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
                             <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
                             <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                            <DataGridCheckBoxColumn Header="Done" Binding="{Binding Done}"></DataGridCheckBoxColumn>
                         </DataGrid.Columns>
                     </DataGrid>
                 </StackPanel>

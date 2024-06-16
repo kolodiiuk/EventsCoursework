@@ -24,8 +24,7 @@ public class CreateEventWindowViewModel : ViewModelBase
     private string _location;
     private string _category;
     private string _description;
-    private string _errorMessage;
-    private ObservableCollection<Event> _eventsToUpdate;
+    private readonly ObservableCollection<Event> _eventsToUpdate;
     private List<string> _suggestions;
     private bool? _done;
 
@@ -119,9 +118,13 @@ public class CreateEventWindowViewModel : ViewModelBase
         {
             dateTime = Date.Value.Date;
         }
-        else
+        else if (Time.HasValue)
         {
             return;
+        }
+        else if (!Date.HasValue && !Time.HasValue)
+        {
+            dateTime = null;
         }
 
         TimeSpan? duration = null;

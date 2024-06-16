@@ -129,9 +129,13 @@ public class EditEventWindowViewModel : ViewModelBase
         {
             dateTime = Date.Value.Date;
         }
-        else
+        else if (Time.HasValue)
         {
             return;
+        }
+        else if (!Date.HasValue && !Time.HasValue)
+        {
+            dateTime = null;
         }
 
         TimeSpan? duration = null;

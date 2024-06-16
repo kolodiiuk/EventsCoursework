@@ -2,16 +2,14 @@
 - [ ] Заходи мають дату, час, тривалість, місце проведення, короткий опис, категорію.
 - [ ] Можливість їх створення, читання, редагування та видалення.
 - [ ] Дані зберігаються у файлі.
-- [ ] Аналіз «накладок» (перетинань планованих справ) та їх врахування при створенні нових заходів.
-- [ ] Перегляд і показ списків справ на завтра,
-  післязавтра і на певну,
-  визначену користувачем, дату.
+- [ ] Перегляд і показ списків справ на завтра, післязавтра і на певну, визначену користувачем, дату.
 - [ ] Категоризація справ та їх пошук за фільтрами.
 
+
+- [ ] Аналіз «накладок» (перетинань планованих справ) та їх врахування при створенні нових заходівt .
 - [ ] Автоматичне нагадування про найближчі справи: за поточною датою і часом;
 - [ ] видалення вчорашніх справ або перенесення на майбутнє.
 - [ ] Запит статистики та її експорт до файл
-
 1.	Total number of events: Display the total count of all the planned events in the database.
 2.	Event distribution by category: Show the distribution of events across different categories. This can help users understand the distribution of their activities and prioritize accordingly.
 3.	Event distribution by date: Provide a breakdown of events based on dates. This can help users identify busy or free days and plan their schedule accordingly.

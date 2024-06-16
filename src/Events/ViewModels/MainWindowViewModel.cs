@@ -4,32 +4,38 @@ using ReactiveUI;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
-using System.Threading;
 using System.Threading.Tasks;
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Events.FileAccess;
+using Events.Models.Specifications;
 using Events.Utilities;
 
 namespace Events.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
+public class MainWindowViewModel : ViewModelBase
 {
     private IEventRepository _eventRepository;
     private string _filepath;
+    
     private ObservableCollection<Event> _allEventsFromCurrFile;
     private ObservableCollection<Event> _allFilteredEvents;
+    
     private Event _selectedEvent;
     private string _selectedFilter;
     private DateTimeOffset? _dateToFilterBy;
     private DateTimeOffset? _dateToFilterTo;
     private bool? _doneFilter;
+    private string _nameFilter;
+    private string? _descriptionFilter;
+    private string? _locationFilter;
+    private string? _categoryFilter;
+    private TimeSpan? _durationFilter;
+    private TimeSpan? _timeFilter;
 
     public MainWindowViewModel(IEventRepository repository)
     {
@@ -39,21 +45,21 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
 
         OpenCreateEventWindowCommand = ReactiveCommand.Create(OpenCreateEventWindow);
         OpenEditEventWindowCommand = ReactiveCommand.Create(OpenEditEventWindow);
-        FilterEventsCommand = ReactiveCommand.Create<string>(FilterEventsByComboboxValues);
-        FilterEventsByDateCommand = ReactiveCommand.Create(FilterEventsByDateRange);
+        FilterEventsComboboxCommand = ReactiveCommand.Create<string>(FilterEventsByComboboxValues);
+        FilterEventSearchButtonCommand = ReactiveCommand.Create(FilterEvents);
         OpenFileCommand = ReactiveCommand.Create(ShowOpenFileDialog);
         NewListCommand = ReactiveCommand.Create(CreateNewList);
     }
-
+    
     #region Button commands
 
     public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; }
     
     public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; }
     
-    public ReactiveCommand<string, Unit> FilterEventsCommand { get; }
+    public ReactiveCommand<string, Unit> FilterEventsComboboxCommand { get; }
     
-    public ReactiveCommand<Unit, Unit> FilterEventsByDateCommand { get; }
+    public ReactiveCommand<Unit, Unit> FilterEventSearchButtonCommand { get; }
     
     public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
 
@@ -61,15 +67,8 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     
     #endregion
 
-    #region Other Properties
-    public IEnumerable<string> FilterOptions { get; } = new List<string>()
-    {
-        "All",
-        "Today",
-        "Tomorrow",
-        "The day after tomorrow",
-    };
-    
+    #region Collections and Selected Event Properties
+
     public ObservableCollection<Event> AllEventsFromCurrFile
     {
         get { return _allEventsFromCurrFile; }
@@ -100,17 +99,19 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
+    #endregion
+    
+    #region Filtering Properties
+
     public string SelectedFilter
     {
         get { return _selectedFilter; }
         set
         {
-            if (_selectedFilter != value)
-            {
-                _selectedFilter = value;
-                OnPropertyChanged();
-                FilterEventsCommand.Execute(_selectedFilter).Subscribe();
-            }
+            if (_selectedFilter == value) return;
+            _selectedFilter = value;
+            OnPropertyChanged();
+            FilterEventsComboboxCommand.Execute(_selectedFilter).Subscribe();
         }
     }
     
@@ -123,22 +124,88 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     public DateTimeOffset? DateToFilterTo
     {
         get => _dateToFilterTo;
-        set => this.RaiseAndSetIfChanged(backingField: ref _dateToFilterTo, value);
+        set => this.RaiseAndSetIfChanged(ref _dateToFilterTo, value);
     }
 
-    public object NameFilter { get; }
-    public object TimeFilter { get; }
-    public object DurationFilter { get; }
-    public object LocationFilter { get; }
-    public object CategoryFilter { get; }
-    public object DescriptionFilter { get; }
-    public object Suggestions { get; }
-
-    #endregion
-    
-    private async Task InitializeAsync()
+    public string NameFilter
     {
-        await LoadEvents();
+        get => _nameFilter;
+        set => this.RaiseAndSetIfChanged(ref _nameFilter, value);
+    }
+
+    public bool? DoneFilter
+    {
+        get => _doneFilter;
+        set => this.RaiseAndSetIfChanged(ref _doneFilter, value);
+    }
+
+    public TimeSpan? TimeFilter
+    {
+        get => _timeFilter;
+        set => this.RaiseAndSetIfChanged(ref _timeFilter, value);
+    }
+
+    public TimeSpan? DurationFilter
+    {
+        get => _durationFilter;
+        set => this.RaiseAndSetIfChanged(ref _durationFilter, value);
+    }
+
+    public string? LocationFilter
+    {
+        get => _locationFilter;
+        set => this.RaiseAndSetIfChanged(ref _locationFilter, value);
+    }
+
+    public string? CategoryFilter
+    {
+        get => _categoryFilter;
+        set => this.RaiseAndSetIfChanged(ref _categoryFilter, value);
+    }
+
+    public string? DescriptionFilter
+    {
+        get => _descriptionFilter;
+        set => this.RaiseAndSetIfChanged(ref _descriptionFilter, value);
+    }
+    
+    #endregion
+
+    #region UI Properties
+
+    public List<string> Suggestions { get; } = new List<string>
+    {
+        "Work",
+        "School",
+        "Family",
+        "Friends",
+        "Other"
+    };
+
+    private readonly Dictionary<string, DateTime> _dateRangeCombobox = new()
+    {
+        { "Today", DateTime.Today.Date },
+        { "Tomorrow", DateTime.Today.AddDays(1) },
+        { "The day after tomorrow", DateTime.Today.AddDays(2) }
+    };
+
+    public IEnumerable<string> FilterOptions { get; } = new List<string>()
+    {
+        "All",
+        "Today",
+        "Tomorrow",
+        "The day after tomorrow",
+    };
+    #endregion
+
+    #region Initialization
+
+    private async Task<Result> InitializeAsync()
+    {
+        var result = await LoadEvents();
+        result.OnFailure(() => Debug.WriteLine(result.Error));
+        
+        return result;
     }
 
     private async Task<Result> LoadEvents(string filepath = null)
@@ -158,69 +225,100 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         }
     }
 
+    #endregion
+    
+    #region Filtering
+
     private void FilterEventsByComboboxValues(string filter)
     {
-        DateTime? targetDate = null;
-        switch (filter)
+        if (filter == "All")
         {
-            case "All":
-                AllFilteredEvents = _allEventsFromCurrFile;
-                break;
-            case "Today":
-                targetDate = DateTime.Today.Date;
-                break;
-            case "Tomorrow":
-                targetDate = DateTime.Today.AddDays(1);
-                break;
-            case "The day after tomorrow":
-                targetDate = DateTime.Today.AddDays(2);
-                break;
-            default:
-                return;
+            AllFilteredEvents = AllEventsFromCurrFile;
         }
-
-        if (targetDate.HasValue 
-            && AllEventsFromCurrFile != null 
-            && AllEventsFromCurrFile.Count > 0
-            )
+        else
         {
-            AllFilteredEvents = 
-                new ObservableCollection<Event>(
-                    AllEventsFromCurrFile.Where(
-                        e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date == targetDate));
+            var spec = new DateSpecification(_dateRangeCombobox[filter], _dateRangeCombobox[filter]);
+            AllFilteredEvents =
+                new ObservableCollection<Event>(AllEventsFromCurrFile.Where(e => spec.IsSatisfiedBy(e)));
         }
     }
 
-    private void FilterEventsByDateRange()
+    private CompositeSpecification CombineSpecifications()
     {
-        if (DateToFilterFrom.HasValue && DateToFilterTo.HasValue)
+        var specifications = new List<ISpecification>();
+
+        if (!string.IsNullOrEmpty(NameFilter))
         {
-            AllFilteredEvents =
-                new ObservableCollection<Event>(
-                    AllEventsFromCurrFile.Where(
-                        e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date >= DateToFilterFrom.Value.Date
-                             && e.DateTime.Value.Date <= DateToFilterTo.Value.Date));
+            specifications.Add(new NameSpecification(NameFilter));
         }
-        else if (DateToFilterFrom.HasValue)
+
+        if (DateToFilterFrom != null && DateToFilterTo != null)
         {
-            AllFilteredEvents =
-                new ObservableCollection<Event>(
-                    AllEventsFromCurrFile.Where(
-                        e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date >= DateToFilterFrom.Value.Date));
+            specifications.Add(new DateSpecification(DateToFilterFrom.Value.Date, DateToFilterTo.Value.Date));
         }
-        else if (DateToFilterTo.HasValue)
+        else if (DateToFilterFrom != null)
         {
-            AllFilteredEvents =
-                new ObservableCollection<Event>(
-                    AllEventsFromCurrFile.Where(
-                        e => e.DateTime.HasValue
-                             && e.DateTime.Value.Date <= DateToFilterTo.Value.Date));
+            specifications.Add(new DateSpecification(DateToFilterFrom.Value.Date, DateTime.MaxValue));
         }
+        else if (DateToFilterTo != null)
+        {
+            specifications.Add(new DateSpecification(DateTime.MinValue, DateToFilterTo.Value.Date));
+        }
+        
+        if (TimeFilter.HasValue)
+        {
+            specifications.Add(new TimeSpecification(TimeFilter.Value));
+        }
+        if (DurationFilter.HasValue)
+        {
+            specifications.Add(new DurationSpecification(DurationFilter.Value));
+        }
+        if (!string.IsNullOrEmpty(LocationFilter))
+        {
+            specifications.Add(new LocationSpecification(LocationFilter));
+        }
+        if (!string.IsNullOrEmpty(CategoryFilter))
+        {
+            specifications.Add(new CategorySpecification(CategoryFilter));
+        }
+        if (!string.IsNullOrEmpty(DescriptionFilter))
+        {
+            specifications.Add(new DescriptionSpecification(DescriptionFilter));
+        }
+        if (DoneFilter.HasValue)
+        {
+            specifications.Add(new DoneSpecification(DoneFilter.Value));
+        }
+        
+        return new CompositeSpecification(specifications.ToArray());
     }
+
+    private void FilterEvents()
+    {
+        var combinedSpecification = CombineSpecifications();
+        AllFilteredEvents = new ObservableCollection<Event>(
+            AllEventsFromCurrFile.Where(e => combinedSpecification.IsSatisfiedBy(e)));
+        
+        ResetFilterProperties();
+    }
+
+    private void ResetFilterProperties()
+    {
+        NameFilter = string.Empty;
+        DoneFilter = null;
+        TimeFilter = null;
+        DurationFilter = null;
+        LocationFilter = string.Empty;
+        CategoryFilter = string.Empty;
+        DescriptionFilter = string.Empty;
+        DateToFilterFrom = null;
+        DateToFilterTo = null;
+    }
+
+    #endregion
     
+    #region New and Open File Dialogs
+
     private async void ShowOpenFileDialog()
     {
         var openFileDialog = new OpenFileDialog
@@ -241,19 +339,17 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             ? desktop.MainWindow
             : null;
 
-        if (mainWindow != null)
+        if (mainWindow == null) return;
+        var result = await openFileDialog.ShowAsync(mainWindow);
+        if (result != null && result.Length > 0)
         {
-            var result = await openFileDialog.ShowAsync(mainWindow);
-            if (result != null && result.Length > 0)
+            _filepath = result[0];
+            _eventRepository = new EventRepository(_filepath);
+            var allEvents = await _eventRepository.GetEventListByConditionAsync(e => true);
+            if (allEvents.IsSuccess)
             {
-                _filepath = result[0];
-                _eventRepository = new EventRepository(_filepath);
-                var allEvents = await _eventRepository.GetEventListByConditionAsync(e => true);
-                if (allEvents.IsSuccess)
-                {
-                    AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
-                    AllFilteredEvents = AllEventsFromCurrFile;
-                }
+                AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
+                AllFilteredEvents = AllEventsFromCurrFile;
             }
         }
     }
@@ -263,6 +359,7 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         var createFileDialog = new SaveFileDialog
         {
             Title = "Create New List",
+            
             DefaultExtension = "json",
             InitialFileName = "events",
             Filters = new List<FileDialogFilter>
@@ -282,10 +379,11 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             var result = await createFileDialog.ShowAsync(mainWindow);
             if (!string.IsNullOrEmpty(result))
             {
-                using var file = File.Create(result);
+                await using var file = File.Create(result);
             }
         }
     }
+    #endregion
    
     #region Window Creation
 
@@ -297,8 +395,6 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             { DataContext = createEventWindowViewModel };
 
         createEventWindow.Show();
-        var result = NotificationManager.ShowNotification("hello", "Hello, world!");
-        Debug.WriteLine(result.Failure ? result.Error : "success");
     }
 
     private void OpenEditEventWindow()

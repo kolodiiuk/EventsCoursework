@@ -126,6 +126,7 @@ public class EventRepository : IEventRepository
             eventToUpdate.Location = @event.Location;
             eventToUpdate.Category = @event.Category;
             eventToUpdate.Description = @event.Description;
+            eventToUpdate.Done = @event.Done;
 
             await WriteToFileAsync(events);
 
