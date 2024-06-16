@@ -3,6 +3,8 @@
         xmlns:vm="using:Events.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Avalonia.Markup.Xaml.Converters;assembly=Avalonia.Markup.Xaml"
+        xmlns:models="clr-namespace:Events.Models"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="Events.Views.MainWindow"
         x:DataType="vm:MainWindowViewModel"
@@ -13,58 +15,75 @@
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
-                <MenuItem Header="New" />
-                <MenuItem Header="Open" Command="{Binding OpenFileCommand}"/>
+                <MenuItem Header="New" Command="{Binding NewListCommand}" />
+                <MenuItem Header="Open" Command="{Binding OpenFileCommand}" />
             </MenuItem>
         </Menu>
-        
+
         <TabControl Margin="1">
             <TabItem Header="Main">
                 <ScrollViewer VerticalScrollBarVisibility="Auto">
-
                     <SplitView
                         IsPaneOpen="True"
-                        DisplayMode="Inline"
-                        OpenPaneLength="200">
-
+                        DisplayMode="CompactInline"
+                        OpenPaneLength="330">
                         <SplitView.Pane>
-                            <StackPanel DockPanel.Dock="Left" Width="170">
-                                <TextBlock>Search</TextBlock>
-                                <TextBox></TextBox>
-                                <Button Content="Search by filters" 
-                                        HorizontalAlignment="Stretch" 
-                                        HorizontalContentAlignment="Center"
-                                        Command="{Binding OpenSearchWindowCommand}"></Button>
-                            <Button DockPanel.Dock="Top" 
-                                    Content="Create event" 
-                                    HorizontalAlignment="Stretch" 
-                                    HorizontalContentAlignment="Center"
-                                    Command="{Binding OpenCreateEventWindowCommand}" />
-                            <Button DockPanel.Dock="Bottom"
-                                    Content="Update event"
-                                    HorizontalAlignment="Stretch"
-                                    HorizontalContentAlignment="Center"
-                                    Command="{Binding OpenEditEventWindowCommand}" />
-                            </StackPanel>
-                        </SplitView.Pane>
+                            <StackPanel DockPanel.Dock="Left" Width="300">
 
-                        <DockPanel>
-                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" DockPanel.Dock="Top">
-                                <ComboBox x:Name="filterComboBox" 
-                                    HorizontalAlignment="Stretch"
-                                          ItemsSource="{Binding FilterOptions}"
-                                          SelectedItem="{Binding SelectedFilter}">
-                                </ComboBox>
-                                <TextBlock>From: </TextBlock>
-                                <DatePicker x:Name="FromDatePicker" SelectedDate="{Binding DateToFilterFrom, Mode=TwoWay} " 
-                                            HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
-                                <TextBlock>To: </TextBlock>
-                                <DatePicker x:Name="ToDatePicker" SelectedDate="{Binding DateToFilterTo, Mode=TwoWay}" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"></DatePicker>
+                                <StackPanel>
+                                    <TextBlock>Name:</TextBlock>
+                                    <TextBox Text="{Binding NameFilter, Mode=TwoWay}" />
+                                    <TextBlock>From: </TextBlock>
+                                    <DatePicker x:Name="FromDatePicker"
+                                                SelectedDate="{Binding DateToFilterFrom, Mode=TwoWay} "
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    </DatePicker>
+                                    <TextBlock>To: </TextBlock>
+                                    <DatePicker x:Name="ToDatePicker"
+                                                SelectedDate="{Binding DateToFilterTo, Mode=TwoWay}"
+                                                HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                                    </DatePicker>
                                     <Button Content="Show events"
                                             HorizontalAlignment="Stretch"
                                             HorizontalContentAlignment="Center"
                                             VerticalAlignment="Stretch"
                                             Command="{Binding FilterEventsByDateCommand}" />
+                                    <TextBlock>Time:</TextBlock>
+                                    <TimePicker SelectedTime="{Binding TimeFilter, Mode=TwoWay}" />
+                                    <TextBlock>Duration:</TextBlock>
+                                    <TextBox
+                                        Text="{Binding DurationFilter, Mode=TwoWay, 
+        Converter={x:Static models:TimeSpanTypeConverter.Instance}}" />
+                                    <TextBlock>Location:</TextBlock>
+                                    <TextBox Text="{Binding LocationFilter, Mode=TwoWay}" />
+                                    <TextBlock>Category:</TextBlock>
+
+                                    <AutoCompleteBox ItemsSource="{Binding Suggestions}"
+                                                     Text="{Binding CategoryFilter, Mode=TwoWay}" />
+                                    <TextBlock>Description:</TextBlock>
+                                    <TextBox Text="{Binding DescriptionFilter, Mode=TwoWay}" />
+                                    <Button Content="Search"
+                                            HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
+                                            >
+                                    </Button>
+                                </StackPanel>
+                            </StackPanel>
+                        </SplitView.Pane>
+
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Grid.Row="0">
+                                <ComboBox x:Name="filterComboBox"
+                                          HorizontalAlignment="Stretch"
+                                          ItemsSource="{Binding FilterOptions}"
+                                          SelectedItem="{Binding SelectedFilter}">
+                                </ComboBox>
                             </StackPanel>
 
                             <DataGrid Margin="20"
@@ -72,7 +91,8 @@
                                       GridLinesVisibility="All"
                                       BorderThickness="1"
                                       BorderBrush="Black"
-                                      SelectedItem="{Binding SelectedEvent}">
+                                      SelectedItem="{Binding SelectedEvent}"
+                                      Grid.Row="1">
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
                                     <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
@@ -82,17 +102,72 @@
                                     <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
                                 </DataGrid.Columns>
                             </DataGrid>
-                      
-                        </DockPanel>
+
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="*" />
+                                </Grid.ColumnDefinitions>
+                                <Button Grid.Column="0"
+                                        Content="Create event"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Command="{Binding OpenCreateEventWindowCommand}" />
+                                <Button Grid.Column="1"
+                                        Content="Update event"
+                                        HorizontalAlignment="Stretch"
+                                        HorizontalContentAlignment="Center"
+                                        Command="{Binding OpenEditEventWindowCommand}" />
+                            </Grid>
+                        </Grid>
 
                     </SplitView>
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Stats">
-                <TextBlock>tab2</TextBlock>
+            <TabItem Header="Upcoming events">
+ <DataGrid Margin="20"
+                                      ItemsSource="{Binding AllFilteredEvents}"
+                                      GridLinesVisibility="All"
+                                      BorderThickness="1"
+                                      BorderBrush="Black"
+                                      SelectedItem="{Binding SelectedEvent}"
+                                      Grid.Row="1">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                                    <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
+                                    <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" />
+                                    <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
+                                    <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                                    <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                                </DataGrid.Columns>
+                            </DataGrid>
             </TabItem>
-            
+
+            <TabItem Header="Past events">
+                <StackPanel>
+                    <Button>Find past events: </Button>
+                    <DataGrid Margin="20"
+                              ItemsSource="{Binding AllFilteredEvents}"
+                              GridLinesVisibility="All"
+                              BorderThickness="1"
+                              BorderBrush="Black"
+                              SelectedItem="{Binding SelectedEvent}"
+                              Grid.Row="1">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Name" Binding="{Binding Name}" />
+                            <DataGridTextColumn Header="Date" Binding="{Binding DateTime}" />
+                            <DataGridTextColumn Header="Duration" Binding="{Binding Duration}" />
+                            <DataGridTextColumn Header="Location" Binding="{Binding Location}" />
+                            <DataGridTextColumn Header="Description" Binding="{Binding Description}" />
+                            <DataGridTextColumn Header="Category" Binding="{Binding Category}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </StackPanel>
+            </TabItem>
+
+            <TabItem Header="Stats">
+            </TabItem>
         </TabControl>
 
     </DockPanel>

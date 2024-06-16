@@ -2,6 +2,7 @@ using Events.Models;
 using Events.ViewModels;
 using ReactiveUI;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -25,13 +26,23 @@ public class CreateEventWindowViewModel : ViewModelBase
     private string _description;
     private string _errorMessage;
     private ObservableCollection<Event> _eventsToUpdate;
+    private List<string> _suggestions;
+    private bool? _done;
 
     public CreateEventWindowViewModel(
         ObservableCollection<Event> eventsToUpdate, IEventRepository repository)
     {
         _eventRepository = repository;
         _eventsToUpdate = eventsToUpdate;
-
+        Suggestions = new List<string>
+        {
+            "Work",
+            "School",
+            "Family",
+            "Friends",
+            "Other"
+        };
+        
         CreateEventCommand = ReactiveCommand.CreateFromTask(CreateEvent);
     }
 
@@ -77,9 +88,21 @@ public class CreateEventWindowViewModel : ViewModelBase
         get => _description;
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
+    
+    public bool? Done
+    {
+        get => _done;
+        set => this.RaiseAndSetIfChanged(ref _done, value);
+    }
+
+    public List<string> Suggestions
+    {
+        get => _suggestions;
+        set => this.RaiseAndSetIfChanged(ref _suggestions, value);
+    }
 
     public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
-    
+
     private async Task CreateEvent()
     {
         if (string.IsNullOrWhiteSpace(Name))
@@ -92,12 +115,21 @@ public class CreateEventWindowViewModel : ViewModelBase
         {
             dateTime = Date.Value.Date + Time.Value;
         }
+        else if (Date.HasValue)
+        {
+            dateTime = Date.Value.Date;
+        }
+        else
+        {
+            return;
+        }
 
         TimeSpan? duration = null;
         if (Duration.HasValue)
         {
             duration = Duration.Value;
         }
+        
 
         var newEventStart = dateTime;
         var newEventEnd = dateTime + duration;
@@ -121,7 +153,6 @@ public class CreateEventWindowViewModel : ViewModelBase
             Name, dateTime, duration, Location, Category, Description);
         
         await _eventRepository.AddEventAsync(newEvent);
-        // _mainWindowViewModel.AllEventsFromCurrFile.Add(newEvent);
         _eventsToUpdate.Add(newEvent);
     }
 }

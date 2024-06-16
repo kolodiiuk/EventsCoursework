@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
+using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Threading;
@@ -13,6 +14,7 @@ using System.Threading.Tasks;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
+using Events.FileAccess;
 using Events.Utilities;
 
 namespace Events.ViewModels;
@@ -27,31 +29,39 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
     private string _selectedFilter;
     private DateTimeOffset? _dateToFilterBy;
     private DateTimeOffset? _dateToFilterTo;
+    private bool? _doneFilter;
 
     public MainWindowViewModel(IEventRepository repository)
     {
         _eventRepository = repository;
+        
         InitializeAsync();
 
-        OpenSearchWindowCommand = ReactiveCommand.Create(OpenSearchWindow);
         OpenCreateEventWindowCommand = ReactiveCommand.Create(OpenCreateEventWindow);
         OpenEditEventWindowCommand = ReactiveCommand.Create(OpenEditEventWindow);
         FilterEventsCommand = ReactiveCommand.Create<string>(FilterEventsByComboboxValues);
         FilterEventsByDateCommand = ReactiveCommand.Create(FilterEventsByDateRange);
         OpenFileCommand = ReactiveCommand.Create(ShowOpenFileDialog);
+        NewListCommand = ReactiveCommand.Create(CreateNewList);
     }
 
     #region Button commands
 
-    public ReactiveCommand<Unit, Unit> OpenSearchWindowCommand { get; }
     public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; }
+    
     public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; }
+    
     public ReactiveCommand<string, Unit> FilterEventsCommand { get; }
+    
     public ReactiveCommand<Unit, Unit> FilterEventsByDateCommand { get; }
+    
     public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
 
+    public ReactiveCommand<Unit, Unit> NewListCommand { get; }
+    
     #endregion
 
+    #region Other Properties
     public IEnumerable<string> FilterOptions { get; } = new List<string>()
     {
         "All",
@@ -116,13 +126,22 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         set => this.RaiseAndSetIfChanged(backingField: ref _dateToFilterTo, value);
     }
 
+    public object NameFilter { get; }
+    public object TimeFilter { get; }
+    public object DurationFilter { get; }
+    public object LocationFilter { get; }
+    public object CategoryFilter { get; }
+    public object DescriptionFilter { get; }
+    public object Suggestions { get; }
 
+    #endregion
+    
     private async Task InitializeAsync()
     {
         await LoadEvents();
     }
 
-    private async Task<Result> LoadEvents()
+    private async Task<Result> LoadEvents(string filepath = null)
     {
         try
         {
@@ -149,7 +168,6 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
                 break;
             case "Today":
                 targetDate = DateTime.Today.Date;
-                Debug.WriteLine("hello");
                 break;
             case "Tomorrow":
                 targetDate = DateTime.Today.AddDays(1);
@@ -161,7 +179,10 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
                 return;
         }
 
-        if (targetDate.HasValue)
+        if (targetDate.HasValue 
+            && AllEventsFromCurrFile != null 
+            && AllEventsFromCurrFile.Count > 0
+            )
         {
             AllFilteredEvents = 
                 new ObservableCollection<Event>(
@@ -226,11 +247,46 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             if (result != null && result.Length > 0)
             {
                 _filepath = result[0];
-                Debug.WriteLine(_filepath);
+                _eventRepository = new EventRepository(_filepath);
+                var allEvents = await _eventRepository.GetEventListByConditionAsync(e => true);
+                if (allEvents.IsSuccess)
+                {
+                    AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
+                    AllFilteredEvents = AllEventsFromCurrFile;
+                }
             }
         }
     }
 
+    private async void CreateNewList()
+    {
+        var createFileDialog = new SaveFileDialog
+        {
+            Title = "Create New List",
+            DefaultExtension = "json",
+            InitialFileName = "events",
+            Filters = new List<FileDialogFilter>
+            {
+                new FileDialogFilter 
+                    { Name = "JSON files", Extensions = new List<string> { "json" } },
+            }
+        };
+    
+        var mainWindow = Avalonia.Application.Current.ApplicationLifetime
+            is IClassicDesktopStyleApplicationLifetime desktop
+            ? desktop.MainWindow
+            : null;
+
+        if (mainWindow != null)
+        {
+            var result = await createFileDialog.ShowAsync(mainWindow);
+            if (!string.IsNullOrEmpty(result))
+            {
+                using var file = File.Create(result);
+            }
+        }
+    }
+   
     #region Window Creation
 
     private void OpenCreateEventWindow()
@@ -241,8 +297,8 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
             { DataContext = createEventWindowViewModel };
 
         createEventWindow.Show();
-        //var result = NotificationManager.ShowNotification("hello", "yopta");
-        //Debug.WriteLine(result.Failure ? result.Error : "success");
+        var result = NotificationManager.ShowNotification("hello", "Hello, world!");
+        Debug.WriteLine(result.Failure ? result.Error : "success");
     }
 
     private void OpenEditEventWindow()
@@ -256,12 +312,5 @@ public class MainWindowViewModel : ViewModelBase, INotifyPropertyChanged
         editEventWindow.Show();
     }
 
-    private void OpenSearchWindow()
-    {
-        var searchWindow = new SearchWindow();
-
-        searchWindow.Show();
-    }
-    
     #endregion
 }

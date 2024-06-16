@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
 using System.Diagnostics;
@@ -20,8 +21,10 @@ public class EditEventWindowViewModel : ViewModelBase
     private TimeSpan? _duration;
     private string _location;
     private string _category;
-    private string _description;
-    
+    private string _description;  
+    private List<string> _suggestions;
+    private bool? _done;
+
     public EditEventWindowViewModel(ObservableCollection<Event> eventsCollection, 
         Event selectedEvent, IEventRepository repository)
     {
@@ -29,7 +32,15 @@ public class EditEventWindowViewModel : ViewModelBase
         _repository = repository;
         _eventsCollection = eventsCollection;
         _repository = repository;
-        
+        Suggestions = new List<string>
+        {
+            "Work",
+            "School",
+            "Family",
+            "Friends",
+            "Other"
+        };
+
         EditEventCommand = ReactiveCommand.Create(EditEventAsync);
         DeleteEventCommand = ReactiveCommand.Create(DeleteEventAsync);
 
@@ -89,6 +100,18 @@ public class EditEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _description, value);
     }
 
+    public bool? Done
+    {
+        get => _done;
+        set => this.RaiseAndSetIfChanged(ref _done, value);
+    }
+    
+    public List<string> Suggestions
+    {
+        get => _suggestions;
+        set => this.RaiseAndSetIfChanged(ref _suggestions, value);
+    }
+
     public Event SelectedEvent { get; set; }
     public ReactiveCommand<Unit, Task> EditEventCommand { get; set; }
     public ReactiveCommand<Unit, Task> DeleteEventCommand { get; set; }
@@ -101,6 +124,14 @@ public class EditEventWindowViewModel : ViewModelBase
         if (Date.HasValue && Time.HasValue)
         {
             dateTime = Date.Value.Date + Time.Value;
+        }
+        else if (Date.HasValue)
+        {
+            dateTime = Date.Value.Date;
+        }
+        else
+        {
+            return;
         }
 
         TimeSpan? duration = null;
@@ -115,6 +146,7 @@ public class EditEventWindowViewModel : ViewModelBase
         SelectedEvent.Location = Location;
         SelectedEvent.Category = Category;
         SelectedEvent.Description = Description;
+        SelectedEvent.Done = Done;
 
         await _repository.UpdateEventAsync(SelectedEvent, 
             e => e.Id == SelectedEvent.Id);
@@ -127,6 +159,7 @@ public class EditEventWindowViewModel : ViewModelBase
         eventToUpdate.Location = Location;
         eventToUpdate.Category = Category;
         eventToUpdate.Description = Description;
+        eventToUpdate.Done = Done;
     }
     
     private async Task DeleteEventAsync()
@@ -146,6 +179,7 @@ public class EditEventWindowViewModel : ViewModelBase
         _location = SelectedEvent.Location;
         _category = SelectedEvent.Category;
         _description = SelectedEvent.Description;
+        _done = SelectedEvent.Done;
     }
     
     private void UpdateDateTime()

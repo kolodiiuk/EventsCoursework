@@ -18,9 +18,10 @@ public partial class MainWindow : Window
     private void MainWindow_Closed(object? sender, EventArgs e)
     {
         Environment.Exit(0);
-    }    public void InitializeComponent()
+    }    
+    
+    public void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
     }
-
 }

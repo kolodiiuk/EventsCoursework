@@ -13,6 +13,7 @@ public class Event : INotifyPropertyChanged
     private string? _location;
     private string? _category;
     private string? _description;
+    private bool? _done;
 
     public Event() {}
     
@@ -22,7 +23,8 @@ public class Event : INotifyPropertyChanged
         TimeSpan? duration,
         string? location,
         string? category,
-        string? description
+        string? description,
+        bool? done = false
         )
     {
         Name = name;
@@ -31,6 +33,7 @@ public class Event : INotifyPropertyChanged
         Location = location;
         Category = category;
         Description = description;
+        Done = done;
         Id = Guid.NewGuid();
     }
 
@@ -102,6 +105,17 @@ public class Event : INotifyPropertyChanged
         }
     }
 
+    public bool? Done
+    {
+        get => _done;
+        set
+        {
+            if (value == _done) return;
+            _done = value;
+            OnPropertyChanged();
+        }
+    }
+    
     // public bool AreIntersected(Event other)
     // {
     //     return DateTime.Date == other.DateTime.Date &&

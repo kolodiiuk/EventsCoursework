@@ -22,8 +22,15 @@ public class EventRepository : IEventRepository
 
     public EventRepository(string filePath = null)
     {
-        _filePath = filePath ?? Path.Combine(
-            AppDomain.CurrentDomain.BaseDirectory, $"Events.json");
+        var pathToEventStorage = Path.Combine(
+            AppDomain.CurrentDomain.BaseDirectory, "events-storage");
+        
+        if (!Directory.Exists(pathToEventStorage))
+        {
+            Directory.CreateDirectory(pathToEventStorage);
+        }
+        
+        _filePath = filePath ?? Path.Combine(pathToEventStorage, $"Events.json");
 
         EnsureFileExists();
     }
@@ -161,12 +168,18 @@ public class EventRepository : IEventRepository
     private async Task<List<Event>> ReadFromFileAsync()
     {
         using var stream = File.OpenRead(_filePath);
-        var items = await JsonSerializer.DeserializeAsync<List<Event>>(stream, _options) ?? new List<Event>();
-
-        return items;
+        if (stream.Length == 0)
+        {
+            return new List<Event>();
+        }
+        else
+        {
+            var items = await JsonSerializer.DeserializeAsync<List<Event>>(stream, _options) ?? new List<Event>();
+            return items;
+        }
     }
 
-    private async Task WriteToFileAsync(List<Event> items) 
+    public async Task WriteToFileAsync(List<Event> items) 
     {
         using var stream = File.Create(_filePath);
         await JsonSerializer.SerializeAsync(stream, items, _options);

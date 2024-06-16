@@ -11,7 +11,7 @@
         x:DataType="views:CreateEventWindowViewModel">
 	
 	<StackPanel>
-        <TextBlock>Name:</TextBlock>
+		<TextBlock>Name:</TextBlock>
         <TextBox Text="{Binding Name, Mode=TwoWay}" />
         <TextBlock>Date:</TextBlock>
 		<DatePicker SelectedDate="{Binding Date, Mode=TwoWay}"  />
@@ -23,7 +23,7 @@
         <TextBlock>Location:</TextBlock>
         <TextBox Text="{Binding Location, Mode=TwoWay}"/>
         <TextBlock>Category:</TextBlock>
-        <TextBox Text="{Binding Category, Mode=TwoWay}"/>
+        <AutoCompleteBox ItemsSource="{Binding Suggestions}" Text="{Binding Category, Mode=TwoWay}"/>
         <TextBlock>Description:</TextBlock>
         <TextBox Text="{Binding Description, Mode=TwoWay}"/>
 

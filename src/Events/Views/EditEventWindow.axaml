@@ -23,10 +23,11 @@
         <TextBlock>Location:</TextBlock>
         <TextBox Text="{Binding Location, Mode=TwoWay}"/>
         <TextBlock>Category:</TextBlock>
-        <TextBox Text="{Binding Category, Mode=TwoWay}"/>
+        <AutoCompleteBox ItemsSource="{Binding Suggestions}" Text="{Binding Category, Mode=TwoWay}"/>
         <TextBlock>Description:</TextBlock>
         <TextBox Text="{Binding Description, Mode=TwoWay}"/>
-
+        <TextBlock>Is finished:</TextBlock>
+        <CheckBox IsChecked="{Binding Done, Mode=TwoWay}"/>
         <Button DockPanel.Dock="Bottom"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
