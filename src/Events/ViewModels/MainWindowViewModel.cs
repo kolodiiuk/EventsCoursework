@@ -8,6 +8,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reactive;
+using System.Text;
 using System.Threading.Tasks;
 using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
@@ -24,6 +25,8 @@ public class MainWindowViewModel : ViewModelBase
     
     private ObservableCollection<Event> _allEventsFromCurrFile;
     private ObservableCollection<Event> _allFilteredEvents;
+    private ObservableCollection<Event> _upcomingEvents;
+    private ObservableCollection<Event> _pastEvents;
     
     private Event _selectedEvent;
     private string _selectedFilter;
@@ -41,7 +44,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         _eventRepository = repository;
         
-        InitializeAsync();
+        Initialize();
 
         OpenCreateEventWindowCommand = ReactiveCommand.Create(OpenCreateEventWindow);
         OpenEditEventWindowCommand = ReactiveCommand.Create(OpenEditEventWindow);
@@ -49,8 +52,12 @@ public class MainWindowViewModel : ViewModelBase
         FilterEventSearchButtonCommand = ReactiveCommand.Create(FilterEvents);
         OpenFileCommand = ReactiveCommand.Create(ShowOpenFileDialog);
         NewListCommand = ReactiveCommand.Create(CreateNewList);
+        SaveAllEventsCommand = ReactiveCommand.Create(SaveAllEventsFromListToTxt);
+        SaveFilteredEventsCommand = ReactiveCommand.Create(SaveFilteredEventsToTxt);
+        UpdatePastEventsCommand = ReactiveCommand.Create(UpdatePastEvents);
+        UpdateUpcomingEventsCommand = ReactiveCommand.Create(UpdateUpcomingEvents);
     }
-    
+
     #region Button commands
 
     public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; }
@@ -64,6 +71,14 @@ public class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
 
     public ReactiveCommand<Unit, Unit> NewListCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> SaveAllEventsCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> SaveFilteredEventsCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> UpdatePastEventsCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> UpdateUpcomingEventsCommand { get; }
     
     #endregion
 
@@ -89,6 +104,25 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
     
+    public ObservableCollection<Event> UpcomingEvents
+    {
+        get { return _upcomingEvents; }
+        set
+        {
+            _upcomingEvents = value;
+            OnPropertyChanged();
+        }
+    }
+
+    public ObservableCollection<Event> PastEvents
+    {
+        get { return _pastEvents; }
+        set
+        {
+            _pastEvents = value;
+            OnPropertyChanged();
+        }
+    }
     public Event SelectedEvent
     {
         get { return _selectedEvent; }
@@ -189,6 +223,7 @@ public class MainWindowViewModel : ViewModelBase
         { "The day after tomorrow", DateTime.Today.AddDays(2) }
     };
 
+
     public IEnumerable<string> FilterOptions { get; } = new List<string>()
     {
         "All",
@@ -196,11 +231,12 @@ public class MainWindowViewModel : ViewModelBase
         "Tomorrow",
         "The day after tomorrow",
     };
+
     #endregion
 
     #region Initialization
 
-    private async Task<Result> InitializeAsync()
+    private async Task<Result> Initialize()
     {
         var result = await LoadEvents();
         result.OnFailure(() => Debug.WriteLine(result.Error));
@@ -208,7 +244,7 @@ public class MainWindowViewModel : ViewModelBase
         return result;
     }
 
-    private async Task<Result> LoadEvents(string filepath = null)
+    private async Task<Result> LoadEvents(string filepath = null) // why filepath?
     {
         try
         {
@@ -216,6 +252,10 @@ public class MainWindowViewModel : ViewModelBase
                 GetEventListByConditionAsync(e => true);
             AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
             AllFilteredEvents = AllEventsFromCurrFile;
+            UpcomingEvents = new ObservableCollection<Event>(
+                AllEventsFromCurrFile.Where(e => e.DateTime > DateTime.Today));
+            PastEvents = new ObservableCollection<Event>(
+                AllEventsFromCurrFile.Where(e => e.DateTime < DateTime.Today));
 
             return Result.Success();
         }
@@ -228,21 +268,6 @@ public class MainWindowViewModel : ViewModelBase
     #endregion
     
     #region Filtering
-
-    private void FilterEventsByComboboxValues(string filter)
-    {
-        if (filter == "All")
-        {
-            AllFilteredEvents = AllEventsFromCurrFile;
-        }
-        else
-        {
-            var spec = new DateSpecification(_dateRangeCombobox[filter], _dateRangeCombobox[filter]);
-            AllFilteredEvents =
-                new ObservableCollection<Event>(AllEventsFromCurrFile.Where(e => spec.IsSatisfiedBy(e)));
-        }
-    }
-
     private CompositeSpecification CombineSpecifications()
     {
         var specifications = new List<ISpecification>();
@@ -254,15 +279,21 @@ public class MainWindowViewModel : ViewModelBase
 
         if (DateToFilterFrom != null && DateToFilterTo != null)
         {
-            specifications.Add(new DateSpecification(DateToFilterFrom.Value.Date, DateToFilterTo.Value.Date));
+            specifications.Add(
+                new DateSpecification(
+                    DateToFilterFrom.Value.Date, DateToFilterTo.Value.Date));
         }
         else if (DateToFilterFrom != null)
         {
-            specifications.Add(new DateSpecification(DateToFilterFrom.Value.Date, DateTime.MaxValue));
+            specifications.Add(
+                new DateSpecification(
+                    DateToFilterFrom.Value.Date, DateTime.MaxValue));
         }
         else if (DateToFilterTo != null)
         {
-            specifications.Add(new DateSpecification(DateTime.MinValue, DateToFilterTo.Value.Date));
+            specifications.Add(
+                new DateSpecification(
+                    DateTime.MinValue, DateToFilterTo.Value.Date));
         }
         
         if (TimeFilter.HasValue)
@@ -297,11 +328,28 @@ public class MainWindowViewModel : ViewModelBase
     {
         var combinedSpecification = CombineSpecifications();
         AllFilteredEvents = new ObservableCollection<Event>(
-            AllEventsFromCurrFile.Where(e => combinedSpecification.IsSatisfiedBy(e)));
+            AllEventsFromCurrFile.Where(
+                e => combinedSpecification.IsSatisfiedBy(e)));
         
         ResetFilterProperties();
     }
 
+    private void FilterEventsByComboboxValues(string filter)
+    {
+        if (filter == "All")
+        {
+            AllFilteredEvents = AllEventsFromCurrFile;
+        }
+        else
+        {
+            var spec = new DateSpecification(
+                _dateRangeCombobox[filter], _dateRangeCombobox[filter]);
+            AllFilteredEvents =
+                new ObservableCollection<Event>(AllEventsFromCurrFile.
+                    Where(e => spec.IsSatisfiedBy(e)));
+        }
+    }
+    
     private void ResetFilterProperties()
     {
         NameFilter = string.Empty;
@@ -315,9 +363,20 @@ public class MainWindowViewModel : ViewModelBase
         DateToFilterTo = null;
     }
 
+    private void UpdateUpcomingEvents()
+    {
+        UpcomingEvents = new ObservableCollection<Event>(
+            AllEventsFromCurrFile.Where(e => e.DateTime > DateTime.Today));
+    }
+
+    private void UpdatePastEvents()
+    {
+        PastEvents = new ObservableCollection<Event>(
+            AllEventsFromCurrFile.Where(e => e.DateTime < DateTime.Today));
+    }
     #endregion
     
-    #region New and Open File Dialogs
+    #region File Dialogs and File Operations
 
     private async void ShowOpenFileDialog()
     {
@@ -340,10 +399,11 @@ public class MainWindowViewModel : ViewModelBase
             : null;
 
         if (mainWindow == null) return;
-        var result = await openFileDialog.ShowAsync(mainWindow);
-        if (result != null && result.Length > 0)
+        
+        var filepath = await openFileDialog.ShowAsync(mainWindow);
+        if (filepath != null && filepath.Length > 0)
         {
-            _filepath = result[0];
+            _filepath = filepath[0];
             _eventRepository = new EventRepository(_filepath);
             var allEvents = await _eventRepository.GetEventListByConditionAsync(e => true);
             if (allEvents.IsSuccess)
@@ -356,6 +416,45 @@ public class MainWindowViewModel : ViewModelBase
 
     private async void CreateNewList()
     {
+        var filepath = await ShowCreateFileDialog();
+        
+        if (!string.IsNullOrEmpty(filepath))
+        {
+            await using var file = File.Create(filepath);
+        }
+    }
+    
+    private async void SaveAllEventsFromListToTxt()
+    {
+        var sb = CreateStringBuilderFromEvents(AllEventsFromCurrFile);
+        var filepath = await ShowCreateFileDialog();
+        if (string.IsNullOrEmpty(filepath)) return;
+        await File.WriteAllTextAsync(filepath, sb.ToString());
+    }
+
+    private async void SaveFilteredEventsToTxt()
+    {
+        var sb = CreateStringBuilderFromEvents(AllFilteredEvents);
+        var filepath = await ShowCreateFileDialog();
+        if (string.IsNullOrEmpty(filepath)) return;
+        await File.WriteAllTextAsync(filepath, sb.ToString());
+    }
+    
+    private StringBuilder CreateStringBuilderFromEvents(
+        IEnumerable<Event> events)
+    {
+        var sb = new StringBuilder();
+        
+        foreach (var e in events)
+        {
+            sb.AppendLine(e.ToString());
+        }
+
+        return sb;
+    }
+    
+    private async Task<string> ShowCreateFileDialog()
+    {
         var createFileDialog = new SaveFileDialog
         {
             Title = "Create New List",
@@ -364,25 +463,31 @@ public class MainWindowViewModel : ViewModelBase
             InitialFileName = "events",
             Filters = new List<FileDialogFilter>
             {
-                new FileDialogFilter 
-                    { Name = "JSON files", Extensions = new List<string> { "json" } },
+                new FileDialogFilter
+                {
+                    Name = "JSON files", Extensions = new List<string> { "json" },
+                },
+                new FileDialogFilter()
+                {
+                    Name = "Text files", Extensions = new List<string> { "txt" },
+                }
             }
         };
-    
+
         var mainWindow = Avalonia.Application.Current.ApplicationLifetime
             is IClassicDesktopStyleApplicationLifetime desktop
             ? desktop.MainWindow
             : null;
 
+        var result = string.Empty;
         if (mainWindow != null)
         {
-            var result = await createFileDialog.ShowAsync(mainWindow);
-            if (!string.IsNullOrEmpty(result))
-            {
-                await using var file = File.Create(result);
-            }
+            result = await createFileDialog.ShowAsync(mainWindow);
         }
+
+        return result;
     }
+    
     #endregion
    
     #region Window Creation

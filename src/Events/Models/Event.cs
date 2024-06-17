@@ -6,7 +6,6 @@ namespace Events.Models;
 
 public class Event : INotifyPropertyChanged
 {
-    private bool _isSelected;
     private string _name;
     private DateTime? _dateTime;
     private TimeSpan? _duration;
@@ -17,15 +16,9 @@ public class Event : INotifyPropertyChanged
 
     public Event() {}
     
-    public Event(
-        string name,
-        DateTime? dateTime,
-        TimeSpan? duration,
-        string? location,
-        string? category,
-        string? description,
-        bool? done = false
-        )
+    public Event(string name, DateTime? dateTime, 
+        TimeSpan? duration, string? location, string? category, 
+        string? description, bool? done = false)
     {
         Name = name;
         DateTime = dateTime;
@@ -115,16 +108,43 @@ public class Event : INotifyPropertyChanged
             OnPropertyChanged();
         }
     }
-    
-    // public bool AreIntersected(Event other)
-    // {
-    //     return DateTime.Date == other.DateTime.Date &&
-    //            DateTime.TimeOfDay < other.DateTime.TimeOfDay + other.Duration &&
-    //            DateTime.TimeOfDay + Duration > other.DateTime.TimeOfDay;
-    // }
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public override string ToString()
+    {
+        var date = DateTime != null ? DateTime?.ToString("dd/MM/yyyy") : "Not set";
+        var time = DateTime != null ? DateTime?.ToString("HH:mm") : "Not set";
+        var duration = Duration != null ? Duration?.ToString("g") : "Not set";
+        var location = Location ?? "Not set";
+        var category = Category ?? "Not set";
+        var description = Description ?? "Not set";
+        var done = Done != null ? (Done == true ? "Yes" : "No") : "Not set";
+        
+        return
+            $"{nameof(Name)}: {Name} {Environment.NewLine}" +
+            $"Date: {date} {Environment.NewLine}" +
+            $"Time: {time} {Environment.NewLine}" +
+            $"{nameof(Duration)}: {duration} {Environment.NewLine}" +
+            $"{nameof(Location)}: {location} {Environment.NewLine}" +
+            $"{nameof(Category)}: {category} {Environment.NewLine}" +
+            $"{nameof(Description)}: {description} {Environment.NewLine}" +
+            $"{nameof(Done)}: {done} {Environment.NewLine} ";
+    }
+
+    public bool AreIntersected(Event other)
+    {
+        if (DateTime == null || other.DateTime == null 
+                             || Duration == null || other.Duration == null)
+        {
+            return false;
+        }
+        
+        return DateTime.Value.Date == other.DateTime.Value.Date &&
+               DateTime.Value.TimeOfDay < other.DateTime.Value.TimeOfDay + other.Duration &&
+               DateTime.Value.TimeOfDay + Duration > other.DateTime.Value.TimeOfDay;
+    }
+    
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
