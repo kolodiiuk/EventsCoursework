@@ -4,8 +4,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Events.Views"
         xmlns:local="clr-namespace:Events.Models"
-        xmlns:viewModels="clr-namespace:Events.ViewModels"
         mc:Ignorable="d" Width="600" Height="385"
+        WindowStartupLocation="CenterScreen"
         x:Class="Events.Views.CreateEventWindow"
         Title="Create new event"
         x:DataType="views:CreateEventWindowViewModel">

@@ -1,6 +1,5 @@
 using System;
 using System.Diagnostics;
-using Avalonia.Controls.Notifications;
 using Events.Utilities;
 
 namespace Events.Models;
@@ -27,11 +26,9 @@ public class NotificationManager
             {
                 return Result.Success("Notification shown successfully.");
             }
-            else
-            {
-                return Result.Fail(
-                    "Error showing notification. Exit code: " + process.ExitCode);
-            }
+
+            return Result.Fail(
+                "Error showing notification. Exit code: " + process.ExitCode);
         }
         catch (Exception ex)
         {

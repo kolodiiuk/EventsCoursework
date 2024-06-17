@@ -1,9 +1,7 @@
 using Avalonia;
-using Avalonia.Controls;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Events.FileAccess;
-using Events.Models;
 using Events.ViewModels;
 using Events.Views;
 

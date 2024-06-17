@@ -3,9 +3,9 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:Events.ViewModels"
-        xmlns:local="clr-namespace:Avalonia.Markup.Xaml.Converters;assembly=Avalonia.Markup.Xaml"
         xmlns:models="clr-namespace:Events.Models"
-        mc:Ignorable="d" Width="600" Height="385"
+        mc:Ignorable="d" Width="600" Height="465"
+        WindowStartupLocation="CenterScreen"
         x:Class="Events.Views.EditEventWindow"
         Title="Edit event"
         x:DataType="viewModels:EditEventWindowViewModel">

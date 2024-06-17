@@ -30,6 +30,7 @@ public class MainWindowViewModel : ViewModelBase
     
     private Event _selectedEvent;
     private string _selectedFilter;
+    
     private DateTimeOffset? _dateToFilterBy;
     private DateTimeOffset? _dateToFilterTo;
     private bool? _doneFilter;
