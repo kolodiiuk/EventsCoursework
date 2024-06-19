@@ -95,7 +95,7 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
     
-    public ObservableCollection<Event> AllFilteredEvents
+    public ObservableCollection<Event> FilteredEvents
     {
         get { return _allFilteredEvents; }
         set
@@ -252,7 +252,7 @@ public class MainWindowViewModel : ViewModelBase
             var allEvents = await _eventRepository.
                 GetEventListByConditionAsync(e => true);
             AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
-            AllFilteredEvents = AllEventsFromCurrFile;
+            FilteredEvents = AllEventsFromCurrFile;
             UpcomingEvents = new ObservableCollection<Event>(
                 AllEventsFromCurrFile.Where(e => e.DateTime > DateTime.Today));
             PastEvents = new ObservableCollection<Event>(
@@ -324,11 +324,12 @@ public class MainWindowViewModel : ViewModelBase
         
         return new CompositeSpecification(specifications.ToArray());
     }
-
+    
+//todo: filter events in setters with command.execute call
     private void FilterEvents()
     {
         var combinedSpecification = CombineSpecifications();
-        AllFilteredEvents = new ObservableCollection<Event>(
+        FilteredEvents = new ObservableCollection<Event>(
             AllEventsFromCurrFile.Where(
                 e => combinedSpecification.IsSatisfiedBy(e)));
         
@@ -339,13 +340,13 @@ public class MainWindowViewModel : ViewModelBase
     {
         if (filter == "All")
         {
-            AllFilteredEvents = AllEventsFromCurrFile;
+            FilteredEvents = AllEventsFromCurrFile;
         }
         else
         {
             var spec = new DateSpecification(
                 _dateRangeCombobox[filter], _dateRangeCombobox[filter]);
-            AllFilteredEvents =
+            FilteredEvents =
                 new ObservableCollection<Event>(AllEventsFromCurrFile.
                     Where(e => spec.IsSatisfiedBy(e)));
         }
@@ -410,11 +411,12 @@ public class MainWindowViewModel : ViewModelBase
             if (allEvents.IsSuccess)
             {
                 AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
-                AllFilteredEvents = AllEventsFromCurrFile;
+                FilteredEvents = AllEventsFromCurrFile;
             }
         }
     }
-
+    
+//todo: add a class which handles changes to kind of lists or whatever it is (maybe or don't)
     private async void CreateNewList()
     {
         var filepath = await ShowCreateFileDialog();
@@ -435,7 +437,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private async void SaveFilteredEventsToTxt()
     {
-        var sb = CreateStringBuilderFromEvents(AllFilteredEvents);
+        var sb = CreateStringBuilderFromEvents(FilteredEvents);
         var filepath = await ShowCreateFileDialog();
         if (string.IsNullOrEmpty(filepath)) return;
         await File.WriteAllTextAsync(filepath, sb.ToString());

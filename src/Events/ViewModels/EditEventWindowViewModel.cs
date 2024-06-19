@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
 using ReactiveUI;
 using System.Reactive;
 using System.Threading.Tasks;
 using Events.Models;
+using Events.Utilities;
 
 namespace Events.ViewModels;
 
@@ -40,8 +40,8 @@ public class EditEventWindowViewModel : ViewModelBase
             "Other"
         };
 
-        EditEventCommand = ReactiveCommand.Create(EditEventAsync);
-        DeleteEventCommand = ReactiveCommand.Create(DeleteEventAsync);
+        EditEventCommand = ReactiveCommand.CreateFromTask(EditEventAsync);
+        DeleteEventCommand = ReactiveCommand.CreateFromTask(DeleteEventAsync);
 
         InitializeProperties();
     }
@@ -111,13 +111,39 @@ public class EditEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _suggestions, value);
     }
 
-    public Event SelectedEvent { get; set; }
-    public ReactiveCommand<Unit, Task> EditEventCommand { get; set; }
-    public ReactiveCommand<Unit, Task> DeleteEventCommand { get; set; }
+    private Event SelectedEvent { get; }
 
+    #region Commands
+    public ReactiveCommand<Unit, Unit> EditEventCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> DeleteEventCommand { get; set; }
+
+    #endregion
+    
     private async Task EditEventAsync()
     {
-        if (string.IsNullOrWhiteSpace(Name)) return;
+        var updateViewCollection = UpdateEventInViewCollection();
+
+        if (updateViewCollection.IsSuccess)
+        {
+            await _repository.UpdateEventAsync(SelectedEvent, 
+                e => e.Id == SelectedEvent.Id);
+        }
+    }
+
+    private async Task DeleteEventAsync()
+    {
+        var writeToFile = await _repository.DeleteEventAsync(
+            e => e.Id == SelectedEvent.Id);
+
+        if (writeToFile.IsSuccess)
+        {
+            _eventsCollection.Remove(SelectedEvent);
+        }
+    }
+    
+    private Result UpdateEventInViewCollection()
+    {
+        if (string.IsNullOrWhiteSpace(Name)) return Result.Fail("Name is required");
 
         DateTime? dateTime = null;
         if (Date.HasValue && Time.HasValue)
@@ -130,7 +156,7 @@ public class EditEventWindowViewModel : ViewModelBase
         }
         else if (Time.HasValue)
         {
-            return;
+            return Result.Fail("Date is required, when time is set.");
         }
         else if (!Date.HasValue && !Time.HasValue)
         {
@@ -150,25 +176,8 @@ public class EditEventWindowViewModel : ViewModelBase
         SelectedEvent.Category = Category;
         SelectedEvent.Description = Description;
         SelectedEvent.Done = Done;
-
-        await _repository.UpdateEventAsync(SelectedEvent, 
-            e => e.Id == SelectedEvent.Id);
-        var eventToUpdate = _eventsCollection.First(
-            e => e.Id == SelectedEvent.Id);
-
-        eventToUpdate.Name = Name;
-        eventToUpdate.DateTime = dateTime;
-        eventToUpdate.Duration = duration;
-        eventToUpdate.Location = Location;
-        eventToUpdate.Category = Category;
-        eventToUpdate.Description = Description;
-        eventToUpdate.Done = Done;
-    }
-    
-    private async Task DeleteEventAsync()
-    {
-        await _repository.DeleteEventAsync(e => e.Id == SelectedEvent.Id);
-        _eventsCollection.Remove(SelectedEvent);
+        
+        return Result.Success();
     }
     
     private void InitializeProperties()
