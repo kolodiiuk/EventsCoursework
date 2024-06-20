@@ -14,7 +14,7 @@ namespace Events.Views;
 
 public class CreateEventWindowViewModel : ViewModelBase
 {
-    private readonly IEventRepository _eventRepository;
+    private readonly IEventDataProvider _eventDataProvider;
 
     private string _name;
     private DateTimeOffset? _date;
@@ -24,16 +24,13 @@ public class CreateEventWindowViewModel : ViewModelBase
     private string _category;
     private string _description;
     private bool? _done;
-    private readonly ObservableCollection<Event> _eventsToUpdate;
     private List<string> _suggestions;
+    private Event _newEvent;
 
-    public CreateEventWindowViewModel(
-        ObservableCollection<Event> eventsToUpdate, IEventRepository repository)
+    public CreateEventWindowViewModel(IEventDataProvider dataProvider)
     {
-        _eventRepository = repository;
-        _eventsToUpdate = eventsToUpdate;
+        _eventDataProvider = dataProvider;
         
-        // todo: categories
         Suggestions = new List<string>
         {
             "Work",
@@ -43,7 +40,7 @@ public class CreateEventWindowViewModel : ViewModelBase
             "Other"
         };
         
-        CreateEventCommand = ReactiveCommand.CreateFromTask(CreateEvent);
+        CreateEventCommand = ReactiveCommand.Create(CreateNewEventWithOverlapCheck);
         OpenOverlapHandlingWindowCommand = ReactiveCommand.Create(OpenOverlapHandlingWindow);
     }
 
@@ -102,25 +99,15 @@ public class CreateEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _suggestions, value);
     }
 
+    public event Action EventCreated;
     public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
     private ReactiveCommand<Unit, Unit> OpenOverlapHandlingWindowCommand { get; }
 
-    private async Task CreateEvent()
-    {
-        var eventFromProperties = CreateEventFromProperties();
-
-        if (eventFromProperties.IsSuccess)
-        {
-            await _eventRepository.AddEventAsync(eventFromProperties.Value);
-            _eventsToUpdate.Add(eventFromProperties.Value);
-        }
-    }
-    
-    private Result<Event> CreateEventFromProperties()
+    public void CreateNewEventWithOverlapCheck()
     {
         if (string.IsNullOrWhiteSpace(Name))
         {
-            return Result<Event>.Fail<Event>("Name is required.");
+            return;
         }
 
         DateTime? dateTime = null;
@@ -134,7 +121,7 @@ public class CreateEventWindowViewModel : ViewModelBase
         }
         else if (Time.HasValue)
         {
-            return Result<Event>.Fail<Event>("Time is required.");
+            return;
         }
         else if (!Date.HasValue && !Time.HasValue)
         {
@@ -147,24 +134,31 @@ public class CreateEventWindowViewModel : ViewModelBase
             duration = Duration.Value;
         }
 
-        Event newEvent = null;
+        _newEvent = new Event(Name, dateTime, duration, Location,
+            Category, Description, false);
+        
         if (!AreEventsOverlapping(dateTime, duration))
         {
-            newEvent = new Event(Name, dateTime, duration, Location, Category, Description, false);
-            return Result<Event>.Success(newEvent);
+            CreateEvent();
         }
         else
         {
             OpenOverlapHandlingWindowCommand.Execute().Subscribe();
-            return Result<Event>.Fail<Event>("Event overlaps with another event.");
         }
+    }
+
+    public void CreateEvent()
+    {
+        _eventDataProvider.AddEvent(_newEvent);
+        EventCreated?.Invoke();
     }
 
     private bool AreEventsOverlapping(DateTime? dateTime, TimeSpan? duration)
     {
         var newEventStart = dateTime;
         var newEventEnd = dateTime + duration;
-        var intersectingEvent = _eventsToUpdate.FirstOrDefault(e =>
+        var intersectingEvent = _eventDataProvider.GetAllEvents().Value.
+            FirstOrDefault(e =>
         {
             var eventStart = e.DateTime;
             var eventEnd = e.DateTime + e.Duration;
@@ -179,7 +173,8 @@ public class CreateEventWindowViewModel : ViewModelBase
 
     private void OpenOverlapHandlingWindow()
     {
-        var overlapHandlingViewModel = new OverlapHandlingViewModel(() => CreateEventFromProperties());
+        var overlapHandlingViewModel = new OverlapHandlingViewModel();
+        overlapHandlingViewModel.ConfirmEventCreation += CreateEvent;
         var overlapHandlingWindow = new OverlapHandlingWindow(overlapHandlingViewModel)
             { DataContext = overlapHandlingViewModel };
 

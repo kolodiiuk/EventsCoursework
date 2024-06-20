@@ -1,3 +1,4 @@
+using System;
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Markup.Xaml;
@@ -8,10 +9,16 @@ namespace Events.Views;
 
 public partial class CreateEventWindow : Window
 {
-    public CreateEventWindow(MainWindowViewModel mainWindowViewModel, IEventRepository repository)
+    private CreateEventWindowViewModel _viewModel;
+    private MainWindowViewModel _mainWindowViewModel;
+
+    public CreateEventWindow(MainWindowViewModel mainWindowViewModel, IEventDataProvider repository)
     {
         InitializeComponent();
-        DataContext = new CreateEventWindowViewModel(mainWindowViewModel.AllEventsFromCurrFile, repository);
+        _viewModel = new CreateEventWindowViewModel(repository);
+        DataContext = _viewModel;
+        _viewModel.EventCreated += mainWindowViewModel.ReloadEvents;
+        _mainWindowViewModel = mainWindowViewModel;
     }
 
     public CreateEventWindow()
@@ -22,5 +29,14 @@ public partial class CreateEventWindow : Window
     public void InitializeComponent()
     {
         AvaloniaXamlLoader.Load(this);
+    }
+
+    protected override void OnClosed(EventArgs e)
+    {
+        base.OnClosed(e);
+        if (_viewModel != null)
+        {
+            _viewModel.EventCreated -= _mainWindowViewModel.ReloadEvents;
+        }
     }
 }

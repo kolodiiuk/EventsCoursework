@@ -8,7 +8,7 @@ namespace Events.Views;
 public partial class EditEventWindow : Window
 {
     public EditEventWindow(
-        ObservableCollection<Event> events, Event @event, IEventRepository repository)
+        ObservableCollection<Event> events, Event @event, IEventDataProvider repository)
     {
         InitializeComponent();
 

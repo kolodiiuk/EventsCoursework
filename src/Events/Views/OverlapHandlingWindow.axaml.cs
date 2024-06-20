@@ -14,4 +14,5 @@ public partial class OverlapHandlingWindow : Window
         
         viewModel.CloseRequested += Close;
     }
+    
 }

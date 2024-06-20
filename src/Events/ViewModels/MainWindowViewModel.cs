@@ -20,10 +20,10 @@ namespace Events.ViewModels;
 
 public class MainWindowViewModel : ViewModelBase
 {
-    private IEventRepository _eventRepository;
+    private IEventDataProvider _dataProvider;
     private string _filepath;
     
-    private ObservableCollection<Event> _allEventsFromCurrFile;
+    // private ObservableCollection<Event> _allEventsFromCurrFile; // to assgin from data provider
     private ObservableCollection<Event> _allFilteredEvents;
     private ObservableCollection<Event> _upcomingEvents;
     private ObservableCollection<Event> _pastEvents;
@@ -41,9 +41,9 @@ public class MainWindowViewModel : ViewModelBase
     private TimeSpan? _durationFilter;
     private TimeSpan? _timeFilter;
 
-    public MainWindowViewModel(IEventRepository repository)
+    public MainWindowViewModel(IEventDataProvider dataProvider)
     {
-        _eventRepository = repository;
+        _dataProvider = dataProvider;
         
         Initialize();
 
@@ -62,39 +62,20 @@ public class MainWindowViewModel : ViewModelBase
     #region Button commands
 
     public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; }
-    
     public ReactiveCommand<string, Unit> FilterEventsComboboxCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> FilterEventSearchButtonCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
-
     public ReactiveCommand<Unit, Unit> NewListCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> SaveAllEventsCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> SaveFilteredEventsCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> UpdatePastEventsCommand { get; }
-    
     public ReactiveCommand<Unit, Unit> UpdateUpcomingEventsCommand { get; }
     
     #endregion
 
     #region Collections and Selected Event Properties
 
-    public ObservableCollection<Event> AllEventsFromCurrFile
-    {
-        get { return _allEventsFromCurrFile; }
-        set
-        {
-            _allEventsFromCurrFile = value;
-            OnPropertyChanged();
-        }
-    }
-    
     public ObservableCollection<Event> FilteredEvents
     {
         get { return _allFilteredEvents; }
@@ -237,38 +218,33 @@ public class MainWindowViewModel : ViewModelBase
 
     #region Initialization
 
-    private async Task<Result> Initialize()
+    // refactored
+    private void Initialize()
     {
-        var result = await LoadEvents();
-        result.OnFailure(() => Debug.WriteLine(result.Error));
-        
-        return result;
+        FilteredEvents = new ObservableCollection<Event>();
+        ReloadEvents();
     }
 
-    private async Task<Result> LoadEvents(string filepath = null) // why filepath?
+    // refactored
+    public void ReloadEvents() 
     {
-        try
+        var allEvents = _dataProvider.GetAllEvents().Value;
+        FilteredEvents.Clear();
+        foreach (var e in allEvents)
         {
-            var allEvents = await _eventRepository.
-                GetEventListByConditionAsync(e => true);
-            AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
-            FilteredEvents = AllEventsFromCurrFile;
-            UpcomingEvents = new ObservableCollection<Event>(
-                AllEventsFromCurrFile.Where(e => e.DateTime > DateTime.Today));
-            PastEvents = new ObservableCollection<Event>(
-                AllEventsFromCurrFile.Where(e => e.DateTime < DateTime.Today));
+            FilteredEvents.Add(e);
+        }
 
-            return Result.Success();
-        }
-        catch (Exception e)
-        {
-            return Result.Fail("Failed to load events");
-        }
+        UpcomingEvents = new ObservableCollection<Event>(
+            allEvents.Where(e => e.DateTime > DateTime.Today));
+        PastEvents = new ObservableCollection<Event>(
+            allEvents.Where(e => e.DateTime < DateTime.Today));
     }
 
     #endregion
     
     #region Filtering
+    // did not change
     private CompositeSpecification CombineSpecifications()
     {
         var specifications = new List<ISpecification>();
@@ -325,33 +301,46 @@ public class MainWindowViewModel : ViewModelBase
         return new CompositeSpecification(specifications.ToArray());
     }
     
-//todo: filter events in setters with command.execute call
+    // refactored
     private void FilterEvents()
     {
         var combinedSpecification = CombineSpecifications();
-        FilteredEvents = new ObservableCollection<Event>(
-            AllEventsFromCurrFile.Where(
-                e => combinedSpecification.IsSatisfiedBy(e)));
+        var allFilteredEvents = _dataProvider.
+            GetAllEvents().Value.
+            Where(e => combinedSpecification.IsSatisfiedBy(e));
+        
+        FilteredEvents = new ObservableCollection<Event>(allFilteredEvents);
         
         ResetFilterProperties();
     }
 
+    // refactored
     private void FilterEventsByComboboxValues(string filter)
     {
         if (filter == "All")
         {
-            FilteredEvents = AllEventsFromCurrFile;
+            var allEvents = _dataProvider.GetAllEvents().Value;
+            if (allEvents == null) return;
+            
+            FilteredEvents.Clear();
+            foreach (var e in allEvents)
+            {
+                FilteredEvents.Add(e);
+            }
         }
         else
         {
             var spec = new DateSpecification(
                 _dateRangeCombobox[filter], _dateRangeCombobox[filter]);
+            
             FilteredEvents =
-                new ObservableCollection<Event>(AllEventsFromCurrFile.
+                new ObservableCollection<Event>(
+                    _dataProvider.GetAllEvents().Value.
                     Where(e => spec.IsSatisfiedBy(e)));
         }
     }
-    
+   
+    //did not change
     private void ResetFilterProperties()
     {
         NameFilter = string.Empty;
@@ -365,21 +354,26 @@ public class MainWindowViewModel : ViewModelBase
         DateToFilterTo = null;
     }
 
+    // refactored
     private void UpdateUpcomingEvents()
     {
         UpcomingEvents = new ObservableCollection<Event>(
-            AllEventsFromCurrFile.Where(e => e.DateTime > DateTime.Today));
+            _dataProvider.GetAllEvents().Value.
+                Where(e => e.DateTime > DateTime.Today));
     }
 
+    // refactored
     private void UpdatePastEvents()
     {
         PastEvents = new ObservableCollection<Event>(
-            AllEventsFromCurrFile.Where(e => e.DateTime < DateTime.Today));
+            _dataProvider.GetAllEvents().Value.
+                Where(e => e.DateTime < DateTime.Today));
     }
     #endregion
     
     #region File Dialogs and File Operations
-
+    
+    // todo: adjust for changed repository
     private async void ShowOpenFileDialog()
     {
         var openFileDialog = new OpenFileDialog
@@ -406,17 +400,16 @@ public class MainWindowViewModel : ViewModelBase
         if (filepath != null && filepath.Length > 0)
         {
             _filepath = filepath[0];
-            _eventRepository = new EventRepository(_filepath);
-            var allEvents = await _eventRepository.GetEventListByConditionAsync(e => true);
+            _dataProvider = new EventsJsonEventDataProvider(_filepath);
+            var allEvents = _dataProvider.GetAllEvents();
             if (allEvents.IsSuccess)
             {
-                AllEventsFromCurrFile = new ObservableCollection<Event>(allEvents.Value);
-                FilteredEvents = AllEventsFromCurrFile;
+                FilteredEvents = new ObservableCollection<Event>(allEvents.Value);
             }
         }
     }
     
-//todo: add a class which handles changes to kind of lists or whatever it is (maybe or don't)
+    //todo: add a class which handles changes to kind of lists or whatever it is (maybe or don't)
     private async void CreateNewList()
     {
         var filepath = await ShowCreateFileDialog();
@@ -427,14 +420,16 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
     
+    // refactored
     private async void SaveAllEventsFromListToTxt()
     {
-        var sb = CreateStringBuilderFromEvents(AllEventsFromCurrFile);
+        var sb = CreateStringBuilderFromEvents(_dataProvider.GetAllEvents().Value);
         var filepath = await ShowCreateFileDialog();
         if (string.IsNullOrEmpty(filepath)) return;
         await File.WriteAllTextAsync(filepath, sb.ToString());
     }
 
+    // did not change
     private async void SaveFilteredEventsToTxt()
     {
         var sb = CreateStringBuilderFromEvents(FilteredEvents);
@@ -443,6 +438,7 @@ public class MainWindowViewModel : ViewModelBase
         await File.WriteAllTextAsync(filepath, sb.ToString());
     }
     
+    // did not change
     private StringBuilder CreateStringBuilderFromEvents(
         IEnumerable<Event> events)
     {
@@ -490,16 +486,16 @@ public class MainWindowViewModel : ViewModelBase
 
         return result;
     }
-    
+
     #endregion
-   
+
     #region Window Creation
 
     private void OpenCreateEventWindow()
     {
-        var createEventWindowViewModel = new CreateEventWindowViewModel(
-            AllEventsFromCurrFile, _eventRepository);
-        var createEventWindow = new CreateEventWindow(this, _eventRepository)
+        var createEventWindowViewModel = new CreateEventWindowViewModel(_dataProvider);
+        createEventWindowViewModel.EventCreated += ReloadEvents;
+        var createEventWindow = new CreateEventWindow(this, _dataProvider) // need to pass reload
             { DataContext = createEventWindowViewModel };
 
         createEventWindow.Show();
@@ -507,13 +503,13 @@ public class MainWindowViewModel : ViewModelBase
 
     private void OpenEditEventWindow()
     {
-        var editEventWindowViewModel = new EditEventWindowViewModel(
-            AllEventsFromCurrFile, _selectedEvent, _eventRepository);
-        var editEventWindow = new EditEventWindow(
-                AllEventsFromCurrFile, _selectedEvent, _eventRepository)
-            { DataContext = editEventWindowViewModel };
-
-        editEventWindow.Show();
+        // var editEventWindowViewModel = 
+        //     new EditEventWindowViewModel(_selectedEvent, _dataProvider);
+        // editEventWindowViewModel.EventUpdated += ReloadEvents;
+        // var editEventWindow = new EditEventWindow(_selectedEvent, _dataProvider)
+        // { DataContext = editEventWindowViewModel };
+        //
+        // editEventWindow.Show();
     }
 
     #endregion

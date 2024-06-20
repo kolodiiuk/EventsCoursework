@@ -12,7 +12,7 @@ namespace Events.ViewModels;
 
 public class EditEventWindowViewModel : ViewModelBase
 {
-    private readonly IEventRepository _repository;
+    private readonly IEventDataProvider _dataProvider;
     private readonly ObservableCollection<Event> _eventsCollection;
     private string _name;
     private DateTimeOffset? _date;
@@ -25,12 +25,12 @@ public class EditEventWindowViewModel : ViewModelBase
     private bool? _done;
 
     public EditEventWindowViewModel(ObservableCollection<Event> eventsCollection, 
-        Event selectedEvent, IEventRepository repository)
+        Event selectedEvent, IEventDataProvider dataProvider)
     {
         SelectedEvent = selectedEvent;
-        _repository = repository;
+        _dataProvider = dataProvider;
         _eventsCollection = eventsCollection;
-        _repository = repository;
+        _dataProvider = dataProvider;
         Suggestions = new List<string>
         {
             "Work",
@@ -40,8 +40,8 @@ public class EditEventWindowViewModel : ViewModelBase
             "Other"
         };
 
-        EditEventCommand = ReactiveCommand.CreateFromTask(EditEventAsync);
-        DeleteEventCommand = ReactiveCommand.CreateFromTask(DeleteEventAsync);
+        EditEventCommand = ReactiveCommand.Create(EditEvent);
+        DeleteEventCommand = ReactiveCommand.Create(DeleteEvent);
 
         InitializeProperties();
     }
@@ -119,21 +119,21 @@ public class EditEventWindowViewModel : ViewModelBase
 
     #endregion
     
-    private async Task EditEventAsync()
+    // todo: adjust for changed repository method
+    private void EditEvent()
     {
         var updateViewCollection = UpdateEventInViewCollection();
 
         if (updateViewCollection.IsSuccess)
         {
-            await _repository.UpdateEventAsync(SelectedEvent, 
-                e => e.Id == SelectedEvent.Id);
+            _dataProvider.UpdateEvent(SelectedEvent);
         }
     }
 
-    private async Task DeleteEventAsync()
+    //todo: adjust for changed repository method
+    private void DeleteEvent()
     {
-        var writeToFile = await _repository.DeleteEventAsync(
-            e => e.Id == SelectedEvent.Id);
+        var writeToFile = _dataProvider.DeleteEvent(SelectedEvent.Id);
 
         if (writeToFile.IsSuccess)
         {
