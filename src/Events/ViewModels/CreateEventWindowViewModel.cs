@@ -165,7 +165,8 @@ public class CreateEventWindowViewModel : ViewModelBase
             return newEventStart >= eventStart && newEventStart <= eventEnd ||
                    newEventEnd >= eventStart && newEventEnd <= eventEnd ||
                    eventStart >= newEventStart && eventStart <= newEventEnd ||
-                   eventEnd >= newEventStart && eventEnd <= newEventEnd;
+                   eventEnd >= newEventStart && eventEnd <= newEventEnd ||
+                   (e.Duration == TimeSpan.Zero && newEventStart <= eventStart && newEventEnd >= eventEnd);
         });
 
         return intersectingEvent != null;

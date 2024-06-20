@@ -12,4 +12,6 @@ public interface IEventDataProvider
     Result UpdateEvent(Event @event);
     Result DeleteEvent(Guid id);
     Result<List<Event>> GetAllEvents();
+    Result<Event> GetEventById(Guid id);
+    Result SubmitChanges();
 }

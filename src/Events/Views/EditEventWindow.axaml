@@ -32,7 +32,7 @@
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"
                 Content="Save changes"
-                Command="{Binding EditEventCommand}"/>
+                Command="{Binding UpdateEventCommand}"/>
         <Button DockPanel.Dock="Bottom"
                 HorizontalAlignment="Stretch"
                 HorizontalContentAlignment="Center"

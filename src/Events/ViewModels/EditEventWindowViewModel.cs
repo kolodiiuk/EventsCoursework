@@ -2,18 +2,21 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
 using ReactiveUI;
 using System.Reactive;
 using System.Threading.Tasks;
 using Events.Models;
 using Events.Utilities;
+using Events.Views;
 
 namespace Events.ViewModels;
 
 public class EditEventWindowViewModel : ViewModelBase
 {
     private readonly IEventDataProvider _dataProvider;
-    private readonly ObservableCollection<Event> _eventsCollection;
+    private Event _updatedEvent;
+    
     private string _name;
     private DateTimeOffset? _date;
     private TimeSpan? _time;
@@ -21,16 +24,24 @@ public class EditEventWindowViewModel : ViewModelBase
     private string _location;
     private string _category;
     private string _description;  
-    private List<string> _suggestions;
     private bool? _done;
+    private Guid _id;
 
-    public EditEventWindowViewModel(ObservableCollection<Event> eventsCollection, 
-        Event selectedEvent, IEventDataProvider dataProvider)
+    private List<string> _suggestions;
+    private DateTime? _dateTime;
+
+    public EditEventWindowViewModel(Guid id, IEventDataProvider dataProvider)
     {
-        SelectedEvent = selectedEvent;
+        _id = id;
         _dataProvider = dataProvider;
-        _eventsCollection = eventsCollection;
-        _dataProvider = dataProvider;
+        SelectedEvent = _dataProvider.GetEventById(_id).Value;
+        
+        UpdateEventCommand = ReactiveCommand.Create(UpdateEventWithOverlapCheck);
+        DeleteEventCommand = ReactiveCommand.Create(DeleteEvent);
+        OpenOverlapHandlingWindowCommand = ReactiveCommand.Create(OpenOverlapHandlingWindow);
+
+        InitializeProperties();
+        
         Suggestions = new List<string>
         {
             "Work",
@@ -39,11 +50,6 @@ public class EditEventWindowViewModel : ViewModelBase
             "Friends",
             "Other"
         };
-
-        EditEventCommand = ReactiveCommand.Create(EditEvent);
-        DeleteEventCommand = ReactiveCommand.Create(DeleteEvent);
-
-        InitializeProperties();
     }
 
     [Required]
@@ -114,53 +120,55 @@ public class EditEventWindowViewModel : ViewModelBase
     private Event SelectedEvent { get; }
 
     #region Commands
-    public ReactiveCommand<Unit, Unit> EditEventCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> UpdateEventCommand { get; set; }
     public ReactiveCommand<Unit, Unit> DeleteEventCommand { get; set; }
+    private ReactiveCommand<Unit, Unit> OpenOverlapHandlingWindowCommand { get; }
 
     #endregion
     
-    // todo: adjust for changed repository method
-    private void EditEvent()
-    {
-        var updateViewCollection = UpdateEventInViewCollection();
-
-        if (updateViewCollection.IsSuccess)
-        {
-            _dataProvider.UpdateEvent(SelectedEvent);
-        }
-    }
-
-    //todo: adjust for changed repository method
-    private void DeleteEvent()
-    {
-        var writeToFile = _dataProvider.DeleteEvent(SelectedEvent.Id);
-
-        if (writeToFile.IsSuccess)
-        {
-            _eventsCollection.Remove(SelectedEvent);
-        }
-    }
+    public event Action EventUpdated;
     
-    private Result UpdateEventInViewCollection()
+    // todo: adjust for changed repository method
+    private void UpdateEvent()
     {
-        if (string.IsNullOrWhiteSpace(Name)) return Result.Fail("Name is required");
+        var selectedEvent = _dataProvider.GetEventById(_id).Value;
+        
+        selectedEvent.Name = Name;
+        selectedEvent.DateTime = _dateTime;
+        selectedEvent.Duration = Duration.Value;
+        selectedEvent.Location = Location;
+        selectedEvent.Category = Category;
+        selectedEvent.Description = Description;
+        selectedEvent.Done = Done;
+        
+        var result = _dataProvider.UpdateEvent(selectedEvent);
+        if (result.IsSuccess)
+        {
+            EventUpdated?.Invoke();
+        }
+    }
+
+    private void UpdateEventWithOverlapCheck()
+    {
+        if (string.IsNullOrWhiteSpace(Name)) return;
 
         DateTime? dateTime = null;
+        _dateTime = dateTime;
         if (Date.HasValue && Time.HasValue)
         {
-            dateTime = Date.Value.Date + Time.Value;
+            _dateTime = Date.Value.Date + Time.Value;
         }
         else if (Date.HasValue)
         {
-            dateTime = Date.Value.Date;
+            _dateTime = Date.Value.Date;
         }
         else if (Time.HasValue)
         {
-            return Result.Fail("Date is required, when time is set.");
+            return;
         }
         else if (!Date.HasValue && !Time.HasValue)
         {
-            dateTime = null;
+            _dateTime = null;
         }
 
         TimeSpan? duration = null;
@@ -168,16 +176,54 @@ public class EditEventWindowViewModel : ViewModelBase
         {
             duration = Duration.Value;
         }
-
-        SelectedEvent.Name = Name;
-        SelectedEvent.DateTime = dateTime;
-        SelectedEvent.Duration = duration;
-        SelectedEvent.Location = Location;
-        SelectedEvent.Category = Category;
-        SelectedEvent.Description = Description;
-        SelectedEvent.Done = Done;
         
-        return Result.Success();
+        
+        if (!AreEventsOverlapping(_dateTime, duration))
+        {
+            UpdateEvent();
+        }
+        else
+        {
+            OpenOverlapHandlingWindowCommand.Execute().Subscribe();
+        }
+    }
+    
+    private bool AreEventsOverlapping(DateTime? dateTime, TimeSpan? duration)
+    {
+        var newEventStart = dateTime;
+        var newEventEnd = dateTime + duration;
+        var intersectingEvent = _dataProvider.GetAllEvents().Value.
+            FirstOrDefault(e =>
+        {
+            var eventStart = e.DateTime;
+            var eventEnd = e.DateTime + e.Duration;
+            return e.Id != _id && (
+                   newEventStart >= eventStart && newEventStart <= eventEnd ||
+                   newEventEnd >= eventStart && newEventEnd <= eventEnd ||
+                   eventStart >= newEventStart && eventStart <= newEventEnd ||
+                   eventEnd >= newEventStart && eventEnd <= newEventEnd);
+        });
+
+        return intersectingEvent != null;
+    }
+    
+    private void DeleteEvent()
+    {
+        var result = _dataProvider.DeleteEvent(_id);
+        if (result.IsSuccess)
+        {
+            EventUpdated?.Invoke();
+        }
+    }
+    
+    private void OpenOverlapHandlingWindow()
+    {
+        var overlapHandlingViewModel = new OverlapHandlingViewModel();
+        overlapHandlingViewModel.ConfirmEventCreation += UpdateEvent;
+        var overlapHandlingWindow = new OverlapHandlingWindow(overlapHandlingViewModel)
+            { DataContext = overlapHandlingViewModel };
+
+        overlapHandlingWindow.Show();
     }
     
     private void InitializeProperties()

@@ -27,8 +27,6 @@
                     Header="Save filtered events" 
                     Command="{Binding SaveFilteredEventsCommand}" />
             </MenuItem>
-            <MenuItem Header="Settings">
-            </MenuItem>
         </Menu>
 
         <TabControl Margin="1">
@@ -140,7 +138,7 @@
                 </ScrollViewer>
             </TabItem>
 
-            <TabItem Header="Upcoming events">
+            <TabItem Header="Upcoming">
                 <StackPanel>
                     <Button HorizontalAlignment="Stretch"
                             Command="{Binding UpdateUpcomingEventsCommand}">Update</Button>
@@ -164,7 +162,7 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Past events">
+            <TabItem Header="Past">
                 <StackPanel>
                     <Button HorizontalAlignment="Stretch"
                             Command="{Binding UpdatePastEventsCommand}">Update the list</Button>
@@ -190,10 +188,9 @@
                 </StackPanel>
             </TabItem>
 
-            <TabItem Header="Stats">
+            <TabItem Header="Statistics">
                 <StackPanel>
                     <TextBlock>List name: </TextBlock>
-                    <!-- <TextBox Text="{Binding ListName, Mode=TwoWay}" /> -->
                     <TextBlock>Total number of events: </TextBlock>
                     <TextBlock>Upcoming events: </TextBlock>
                     <TextBlock>Past events: </TextBlock>
@@ -201,10 +198,8 @@
                 </StackPanel>
             </TabItem>
             
-            <TabItem>
+            <TabItem Header="Settings">
                 <StackPanel>
-                    <TextBlock>Free hours: </TextBlock>
-                    <TextBlock>Free days: </TextBlock>
                     <TextBlock>Reminder: </TextBlock>
                 </StackPanel>
             </TabItem>

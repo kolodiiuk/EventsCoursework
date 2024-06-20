@@ -3,7 +3,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:views="clr-namespace:Events.Views"
-        mc:Ignorable="d" d:DesignWidth="500" d:DesignHeight="250"
+        mc:Ignorable="d" d:Width="300" d:Height="250"
         x:Class="Events.Views.OverlapHandlingWindow"
         Title="OverlapHandlingWindow"
         x:DataType="views:OverlapHandlingViewModel">
@@ -15,7 +15,7 @@
     </Grid.RowDefinitions>
 
     <TextBlock Grid.Row="0"
-               Text="Do you want to create a new event that overlaps with an existing event?"
+               Text="Events overlap. Do you want to save changes?"
                VerticalAlignment="Center"
                HorizontalAlignment="Center" />
 

@@ -92,17 +92,23 @@ public class EventsJsonEventDataProvider : IEventDataProvider
         return Result.Success();
     }
     
-    public Result<List<Event>> GetAllEvents()
+    public Result<List<Event>> GetAllEvents() => Result.Success(_events);
+
+    public Result<Event> GetEventById(Guid id)
     {
-        return Result.Success(_events);
+        var @event = _events.SingleOrDefault(e => e.Id == id);
+        
+        return @event == null
+            ? Result.Fail<Event>("Event not found.")
+            : Result.Success(@event);
     }
 
-    public async Task<Result> SubmitChanges()
+    public Result SubmitChanges()
     {
         try
         {
             using var stream = File.Create(_filePath);
-            await JsonSerializer.SerializeAsync(stream, _events, _options);
+            JsonSerializer.Serialize(stream, _events, _options);
             
             return Result.Success();
         }

@@ -132,19 +132,6 @@ public class Event : INotifyPropertyChanged
             $"{nameof(Done)}: {done} {Environment.NewLine} ";
     }
 
-    public bool AreIntersected(Event other)
-    {
-        if (DateTime == null || other.DateTime == null 
-                             || Duration == null || other.Duration == null)
-        {
-            return false;
-        }
-        
-        return DateTime.Value.Date == other.DateTime.Value.Date &&
-               DateTime.Value.TimeOfDay < other.DateTime.Value.TimeOfDay + other.Duration &&
-               DateTime.Value.TimeOfDay + Duration > other.DateTime.Value.TimeOfDay;
-    }
-    
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
