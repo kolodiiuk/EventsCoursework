@@ -99,9 +99,12 @@ public class CreateEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _suggestions, value);
     }
 
-    public event Action EventCreated;
+
     public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
-    private ReactiveCommand<Unit, Unit> OpenOverlapHandlingWindowCommand { get; }
+    
+    public ReactiveCommand<Unit, Unit> OpenOverlapHandlingWindowCommand { get; }
+
+    public event Action EventCreated;
 
     public void CreateNewEventWithOverlapCheck()
     {

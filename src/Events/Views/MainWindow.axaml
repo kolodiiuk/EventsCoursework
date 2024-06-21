@@ -195,15 +195,44 @@
                     <TextBlock>Upcoming events: </TextBlock>
                     <TextBlock>Past events: </TextBlock>
 
-                </StackPanel>
-            </TabItem>
-            
-            <TabItem Header="Settings">
-                <StackPanel>
-                    <TextBlock>Reminder: </TextBlock>
-                </StackPanel>
-            </TabItem>
-        </TabControl>
+				</StackPanel>
+			</TabItem>
 
-    </DockPanel>
+			<TabItem Header="Settings">
+				<Grid>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+						<ColumnDefinition Width="Auto" />
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto" />
+					</Grid.RowDefinitions>
+
+					<TextBlock Grid.Column="0"
+							   Text="Reminder           "
+							   VerticalAlignment="Center"
+							   HorizontalAlignment="Center" />
+
+					<TextBox Grid.Column="1"
+                             Text ="{Binding NotificationThresholdMinutesTemp}">
+                    <TextBox.KeyBindings>
+                        <KeyBinding Command="{Binding SaveReminderSettings}" Gesture="Enter"/>
+                    </TextBox.KeyBindings> 
+                    </TextBox>
+
+					<TextBlock Grid.Column="2"
+							   Text="       min before"
+							   VerticalAlignment="Center"
+							   HorizontalAlignment="Center" />
+                    <!--<Button
+                        Command="{Binding SaveReminderSettingsCommand}">
+                        Save
+                    </Button>-->
+				</Grid>
+
+			</TabItem>
+		</TabControl>
+
+	</DockPanel>
 </Window>

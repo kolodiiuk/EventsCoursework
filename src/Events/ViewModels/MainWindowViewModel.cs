@@ -28,7 +28,8 @@ public class MainWindowViewModel : ViewModelBase
     private ObservableCollection<Event> _upcomingEvents;
     private ObservableCollection<Event> _pastEvents;
     private readonly Timer _timer; 
-    private int NotificationThresholdMinutes = 1;
+    private int _notificationThresholdMinutes = 1;
+    private int? _notificationThresholdMinutesTemp;
     
     private Event _selectedEvent;
     private string _selectedFilter;
@@ -63,19 +64,26 @@ public class MainWindowViewModel : ViewModelBase
         SaveFilteredEventsCommand = ReactiveCommand.Create(SaveFilteredEventsToTxt);
         UpdatePastEventsCommand = ReactiveCommand.Create(UpdatePastEvents);
         UpdateUpcomingEventsCommand = ReactiveCommand.Create(UpdateUpcomingEvents);
+        SaveReminderSettingsCommand = ReactiveCommand.Create(SaveReminderSettings);
     }
+
+    public void SaveReminderSettings()
+    {
+        _notificationThresholdMinutes = _notificationThresholdMinutesTemp ?? 1;
+    }
+
 
     private void CheckUpcomingEvents(object sender, ElapsedEventArgs e)
     {
         SubmitChanges();
         var upcomingEvents = _dataProvider.GetAllEvents().Value
             .Where(@event => @event.DateTime > DateTime.Now && 
-        @event.DateTime < DateTime.Now.AddMinutes(NotificationThresholdMinutes));
+        @event.DateTime < DateTime.Now.AddMinutes(_notificationThresholdMinutes));
 
         foreach (var upcomingEvent in upcomingEvents)
         {
             NotificationManager.ShowNotification(
-                upcomingEvent.Name, upcomingEvent.Description);
+                upcomingEvent.Name, $"In 5 minutes: {upcomingEvent.Name}");
         }
     }
 
@@ -91,6 +99,7 @@ public class MainWindowViewModel : ViewModelBase
     public ReactiveCommand<Unit, Unit> SaveFilteredEventsCommand { get; }
     public ReactiveCommand<Unit, Unit> UpdatePastEventsCommand { get; }
     public ReactiveCommand<Unit, Unit> UpdateUpcomingEventsCommand { get; }
+    public ReactiveCommand<Unit, Unit> SaveReminderSettingsCommand { get; }
     
     #endregion
 
@@ -204,6 +213,13 @@ public class MainWindowViewModel : ViewModelBase
         get => _descriptionFilter;
         set => this.RaiseAndSetIfChanged(ref _descriptionFilter, value);
     }
+
+
+    public int? NotificationThresholdMinutesTemp
+    {
+        get => _notificationThresholdMinutesTemp;
+        set => this.RaiseAndSetIfChanged(ref _notificationThresholdMinutesTemp, value);
+    }
     
     #endregion
 
@@ -226,6 +242,7 @@ public class MainWindowViewModel : ViewModelBase
     };
 
 
+
     public IEnumerable<string> FilterOptions { get; } = new List<string>()
     {
         "All",
@@ -233,6 +250,7 @@ public class MainWindowViewModel : ViewModelBase
         "Tomorrow",
         "The day after tomorrow",
     };
+
 
     #endregion
 
