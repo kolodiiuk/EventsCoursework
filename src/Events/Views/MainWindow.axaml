@@ -21,10 +21,10 @@
                     Header="Open" 
                     Command="{Binding OpenFileCommand}" />
                 <MenuItem 
-                    Header="Save all events from list" 
+                    Header="Save all from list" 
                     Command="{Binding SaveAllEventsCommand}" />
                 <MenuItem 
-                    Header="Save filtered events" 
+                    Header="Save filtered" 
                     Command="{Binding SaveFilteredEventsCommand}" />
             </MenuItem>
         </Menu>
@@ -118,19 +118,15 @@
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
                                 <Button Grid.Column="0"
-                                        Content="Create event"
+                                        Content="Add"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Center"
                                         Command="{Binding OpenCreateEventWindowCommand}" />
                                 <Button Grid.Column="1"
-                                        Content="Update event"
+                                        Content="Edit"
                                         HorizontalAlignment="Stretch"
                                         HorizontalContentAlignment="Center"
                                         Command="{Binding OpenEditEventWindowCommand}" />
-                                <Button 
-                                    Grid.Column="1"
-                                    Content="Delete finished">
-                                </Button>
                             </Grid>
                         </Grid>
 

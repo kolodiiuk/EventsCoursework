@@ -9,6 +9,7 @@ using System.IO;
 using System.Linq;
 using System.Reactive;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Timers;
 using Avalonia.Controls;
@@ -27,10 +28,13 @@ public class MainWindowViewModel : ViewModelBase
     private ObservableCollection<Event> _filteredEvents;
     private ObservableCollection<Event> _upcomingEvents;
     private ObservableCollection<Event> _pastEvents;
+
     private readonly Timer _timer; 
     private int _notificationThresholdMinutes = 1;
     private int? _notificationThresholdMinutesTemp;
-    
+    private List<Guid> _shownNotfications = new();
+    private bool _showNotifications = true;
+
     private Event _selectedEvent;
     private string _selectedFilter;
     
@@ -65,26 +69,6 @@ public class MainWindowViewModel : ViewModelBase
         UpdatePastEventsCommand = ReactiveCommand.Create(UpdatePastEvents);
         UpdateUpcomingEventsCommand = ReactiveCommand.Create(UpdateUpcomingEvents);
         SaveReminderSettingsCommand = ReactiveCommand.Create(SaveReminderSettings);
-    }
-
-    public void SaveReminderSettings()
-    {
-        _notificationThresholdMinutes = _notificationThresholdMinutesTemp ?? 1;
-    }
-
-
-    private void CheckUpcomingEvents(object sender, ElapsedEventArgs e)
-    {
-        SubmitChanges();
-        var upcomingEvents = _dataProvider.GetAllEvents().Value
-            .Where(@event => @event.DateTime > DateTime.Now && 
-        @event.DateTime < DateTime.Now.AddMinutes(_notificationThresholdMinutes));
-
-        foreach (var upcomingEvent in upcomingEvents)
-        {
-            NotificationManager.ShowNotification(
-                upcomingEvent.Name, $"In 5 minutes: {upcomingEvent.Name}");
-        }
     }
 
     #region Button commands
@@ -277,6 +261,26 @@ public class MainWindowViewModel : ViewModelBase
             allEvents.Where(e => e.DateTime < DateTime.Today));
     }
 
+    private void CheckUpcomingEvents(object sender, ElapsedEventArgs e)
+    {
+        SubmitChanges();
+
+        if (_showNotifications)
+        {
+            var upcomingEvents = _dataProvider.GetAllEvents().Value
+                .Where(@event => @event.DateTime > DateTime.Now &&
+                                 @event.DateTime < DateTime.Now.AddMinutes(_notificationThresholdMinutes));
+
+            foreach (var upcomingEvent in upcomingEvents)
+            {
+                if (_shownNotfications.Contains(upcomingEvent.Id)) continue;
+                NotificationManager.ShowNotification(
+                    upcomingEvent.Name, $"In 5 minutes: {upcomingEvent.Name}");
+                _shownNotfications.Add(upcomingEvent.Id);
+            }
+        }
+    }
+
     #endregion
     
     #region Filtering
@@ -390,15 +394,29 @@ public class MainWindowViewModel : ViewModelBase
     {
         UpcomingEvents = new ObservableCollection<Event>(
             _dataProvider.GetAllEvents().Value.
-                Where(e => e.DateTime > DateTime.Today));
+                Where(e => e.DateTime > DateTime.Now));
     }
 
     private void UpdatePastEvents()
     {
         PastEvents = new ObservableCollection<Event>(
             _dataProvider.GetAllEvents().Value.
-                Where(e => e.DateTime < DateTime.Today));
+                Where(e => e.DateTime < DateTime.Now));
     }
+    
+    public void SaveReminderSettings()
+    {
+        if (_notificationThresholdMinutesTemp >= 1 && _notificationThresholdMinutesTemp <= 10080)
+        {
+            _notificationThresholdMinutes = _notificationThresholdMinutesTemp ?? 1;
+            _showNotifications = true;
+        } 
+        else if (_notificationThresholdMinutesTemp == 0)
+        {
+            _showNotifications = false;
+        }
+    }
+
     #endregion
     
     #region File Dialogs and File Operations

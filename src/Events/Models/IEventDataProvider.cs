@@ -14,3 +14,4 @@ public interface IEventDataProvider
     Result<Event> GetEventById(Guid id);
     Result SubmitChanges();
 }
+
