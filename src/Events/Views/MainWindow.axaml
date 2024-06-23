@@ -137,7 +137,7 @@
             <TabItem Header="Upcoming">
                 <StackPanel>
                     <Button HorizontalAlignment="Stretch"
-                            Command="{Binding UpdateUpcomingEventsCommand}">Update</Button>
+                            Command="{Binding UpdateUpcomingEventsCommand}">Update the list</Button>
                     <DataGrid Margin="20"
                               ItemsSource="{Binding UpcomingEvents}"
                               GridLinesVisibility="All"
@@ -186,12 +186,13 @@
 
             <TabItem Header="Statistics">
                 <StackPanel>
-                    <TextBlock>List name: </TextBlock>
-                    <TextBlock>Total number of events: </TextBlock>
-                    <TextBlock>Upcoming events: </TextBlock>
-                    <TextBlock>Past events: </TextBlock>
+                <StackPanel>
+                    <Button Content="Update"
+                            Command="{Binding UpdateStatsCommand}"/>
 
 				</StackPanel>
+                    <SelectableTextBlock Text="{Binding Statistics}"/>
+                </StackPanel>
 			</TabItem>
 
 			<TabItem Header="Settings">

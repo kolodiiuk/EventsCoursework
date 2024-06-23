@@ -6,7 +6,6 @@ namespace Events.Models;
 
 public class NotificationManager
 {
-    
     public static Result ShowNotification(string title, string message)
     {
         try

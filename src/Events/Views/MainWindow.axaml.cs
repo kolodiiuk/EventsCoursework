@@ -17,7 +17,7 @@ public partial class MainWindow : Window
         {
             if (DataContext is MainWindowViewModel viewModel)
             {
-                viewModel.SubmitChanges();
+                viewModel.SaveChanges();
             }
         };
         Closed += (sender, e) => Environment.Exit(0);

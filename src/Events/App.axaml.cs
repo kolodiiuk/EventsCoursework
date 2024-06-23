@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using Events.FileAccess;
+using Events.Models;
 using Events.ViewModels;
 using Events.Views;
 
@@ -16,12 +17,11 @@ public partial class App : Application
 
     public override void OnFrameworkInitializationCompleted()
     {
-        var repository = new EventsJsonEventDataProvider();
         if (ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainWindowViewModel(repository),
+                DataContext = new MainWindowViewModel(new EventsJsonEventDataProvider())
             };
         }
 

@@ -48,6 +48,8 @@ public class MainWindowViewModel : ViewModelBase
     private TimeSpan? _durationFilter;
     private TimeSpan? _timeFilter;
 
+    private string? _statistics = "No statistics available";
+    
     public MainWindowViewModel(IEventDataProvider dataProvider)
     {
         _dataProvider = dataProvider;
@@ -69,21 +71,23 @@ public class MainWindowViewModel : ViewModelBase
         UpdatePastEventsCommand = ReactiveCommand.Create(UpdatePastEvents);
         UpdateUpcomingEventsCommand = ReactiveCommand.Create(UpdateUpcomingEvents);
         SaveReminderSettingsCommand = ReactiveCommand.Create(SaveReminderSettings);
+        UpdateStatsCommand = ReactiveCommand.Create(UpdateStatistics);
     }
 
     #region Button commands
 
-    public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; }
-    public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; }
-    public ReactiveCommand<string, Unit> FilterEventsComboboxCommand { get; }
-    public ReactiveCommand<Unit, Unit> FilterEventSearchButtonCommand { get; }
-    public ReactiveCommand<Unit, Unit> OpenFileCommand { get; }
-    public ReactiveCommand<Unit, Unit> NewListCommand { get; }
-    public ReactiveCommand<Unit, Unit> SaveAllEventsCommand { get; }
-    public ReactiveCommand<Unit, Unit> SaveFilteredEventsCommand { get; }
-    public ReactiveCommand<Unit, Unit> UpdatePastEventsCommand { get; }
-    public ReactiveCommand<Unit, Unit> UpdateUpcomingEventsCommand { get; }
-    public ReactiveCommand<Unit, Unit> SaveReminderSettingsCommand { get; }
+    public ReactiveCommand<Unit, Unit> OpenCreateEventWindowCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> OpenEditEventWindowCommand { get; set; }
+    public ReactiveCommand<string, Unit> FilterEventsComboboxCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> FilterEventSearchButtonCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> OpenFileCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> NewListCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> SaveAllEventsCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> SaveFilteredEventsCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> UpdatePastEventsCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> UpdateUpcomingEventsCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> SaveReminderSettingsCommand { get; set; }
+    public ReactiveCommand<Unit, Unit> UpdateStatsCommand { get; set; }
     
     #endregion
 
@@ -147,64 +151,94 @@ public class MainWindowViewModel : ViewModelBase
     public DateTimeOffset? DateToFilterFrom
     {
         get => _dateToFilterBy;
-        set => this.RaiseAndSetIfChanged(ref _dateToFilterBy, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _dateToFilterBy, value); 
+            OnPropertyChanged();
+        }
     }
-    
+
     public DateTimeOffset? DateToFilterTo
     {
         get => _dateToFilterTo;
-        set => this.RaiseAndSetIfChanged(ref _dateToFilterTo, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _dateToFilterTo, value); 
+            OnPropertyChanged();
+        }
     }
 
     public string NameFilter
     {
         get => _nameFilter;
-        set => this.RaiseAndSetIfChanged(ref _nameFilter, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _nameFilter, value); 
+            OnPropertyChanged();
+        }
     }
 
     public bool? DoneFilter
     {
         get => _doneFilter;
-        set => this.RaiseAndSetIfChanged(ref _doneFilter, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _doneFilter, value); 
+            OnPropertyChanged();
+        }
     }
 
     public TimeSpan? TimeFilter
     {
         get => _timeFilter;
-        set => this.RaiseAndSetIfChanged(ref _timeFilter, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _timeFilter, value); 
+            OnPropertyChanged();
+        }
     }
 
     public TimeSpan? DurationFilter
     {
         get => _durationFilter;
-        set => this.RaiseAndSetIfChanged(ref _durationFilter, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _durationFilter, value); 
+            OnPropertyChanged();
+        }
     }
 
     public string? LocationFilter
     {
         get => _locationFilter;
-        set => this.RaiseAndSetIfChanged(ref _locationFilter, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _categoryFilter, value);
+            OnPropertyChanged();
+        }
     }
 
     public string? CategoryFilter
     {
         get => _categoryFilter;
-        set => this.RaiseAndSetIfChanged(ref _categoryFilter, value);
+        
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _categoryFilter, value);
+            OnPropertyChanged();
+        }
     }
 
     public string? DescriptionFilter
     {
         get => _descriptionFilter;
-        set => this.RaiseAndSetIfChanged(ref _descriptionFilter, value);
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _descriptionFilter, value);
+            OnPropertyChanged();
+        }
     }
 
-
-    public int? NotificationThresholdMinutesTemp
-    {
-        get => _notificationThresholdMinutesTemp;
-        set => this.RaiseAndSetIfChanged(ref _notificationThresholdMinutesTemp, value);
-    }
-    
     #endregion
 
     #region UI Properties
@@ -218,15 +252,6 @@ public class MainWindowViewModel : ViewModelBase
         "Other"
     };
 
-    private readonly Dictionary<string, DateTime> _dateRangeCombobox = new()
-    {
-        { "Today", DateTime.Today.Date },
-        { "Tomorrow", DateTime.Today.AddDays(1) },
-        { "The day after tomorrow", DateTime.Today.AddDays(2) }
-    };
-
-
-
     public IEnumerable<string> FilterOptions { get; } = new List<string>()
     {
         "All",
@@ -234,11 +259,36 @@ public class MainWindowViewModel : ViewModelBase
         "Tomorrow",
         "The day after tomorrow",
     };
-
+    
+    private readonly Dictionary<string, DateTime> _dateRangeCombobox = new()
+    {
+        { "Today", DateTime.Today.Date },
+        { "Tomorrow", DateTime.Today.AddDays(1) },
+        { "The day after tomorrow", DateTime.Today.AddDays(2) }
+    };
 
     #endregion
 
-    #region Initialization
+    #region Other UI Properties
+    public string? Statistics 
+    { 
+        get => _statistics;
+        set
+        {
+            this.RaiseAndSetIfChanged(ref _statistics, value); 
+            OnPropertyChanged();
+        }
+    } 
+    
+    public int? NotificationThresholdMinutesTemp
+    {
+        get => _notificationThresholdMinutesTemp;
+        set => this.RaiseAndSetIfChanged(ref _notificationThresholdMinutesTemp, value);
+    }
+    
+    #endregion
+
+    #region Initialization and Helper Methods
 
     private void Initialize()
     {
@@ -263,7 +313,7 @@ public class MainWindowViewModel : ViewModelBase
 
     private void CheckUpcomingEvents(object sender, ElapsedEventArgs e)
     {
-        SubmitChanges();
+        SaveChanges();
 
         if (_showNotifications)
         {
@@ -278,6 +328,26 @@ public class MainWindowViewModel : ViewModelBase
                     upcomingEvent.Name, $"In 5 minutes: {upcomingEvent.Name}");
                 _shownNotfications.Add(upcomingEvent.Id);
             }
+        }
+    }
+
+    private void UpdateStatistics()
+    {
+        var statistics = new Statistics(_dataProvider.GetAllEvents().Value);
+        Statistics = statistics.StringRepresentation;
+    }
+    
+    public void SaveReminderSettings()
+    {
+        if (_notificationThresholdMinutesTemp >= 1 
+            && _notificationThresholdMinutesTemp <= 10080)
+        {
+            _notificationThresholdMinutes = _notificationThresholdMinutesTemp ?? 1;
+            _showNotifications = true;
+        } 
+        else if (_notificationThresholdMinutesTemp == 0)
+        {
+            _showNotifications = false;
         }
     }
 
@@ -392,35 +462,36 @@ public class MainWindowViewModel : ViewModelBase
 
     private void UpdateUpcomingEvents()
     {
-        UpcomingEvents = new ObservableCollection<Event>(
-            _dataProvider.GetAllEvents().Value.
-                Where(e => e.DateTime > DateTime.Now));
+        UpcomingEvents.Clear();
+        
+        var upcomingEvents = _dataProvider.GetAllEvents().Value
+            .Where(e => e.DateTime > DateTime.Now);
+        foreach (var e in upcomingEvents)
+        {
+            UpcomingEvents.Add(e);
+        }
     }
 
     private void UpdatePastEvents()
     {
-        PastEvents = new ObservableCollection<Event>(
-            _dataProvider.GetAllEvents().Value.
-                Where(e => e.DateTime < DateTime.Now));
-    }
-    
-    public void SaveReminderSettings()
-    {
-        if (_notificationThresholdMinutesTemp >= 1 && _notificationThresholdMinutesTemp <= 10080)
+        PastEvents.Clear();
+        
+        var pastEvents = _dataProvider.GetAllEvents().Value
+            .Where(e => e.DateTime < DateTime.Now);
+        foreach (var e in pastEvents)
         {
-            _notificationThresholdMinutes = _notificationThresholdMinutesTemp ?? 1;
-            _showNotifications = true;
-        } 
-        else if (_notificationThresholdMinutesTemp == 0)
-        {
-            _showNotifications = false;
+            PastEvents.Add(e);
         }
     }
-
+    
     #endregion
     
     #region File Dialogs and File Operations
     
+    public void SaveChanges()
+    {
+        _dataProvider.SubmitChanges();
+    }
     private async void ShowOpenFileDialog()
     {
         var openFileDialog = new OpenFileDialog
@@ -447,7 +518,7 @@ public class MainWindowViewModel : ViewModelBase
         if (filepath != null && filepath.Length > 0)
         {
             _filepath = filepath[0];
-            SubmitChanges();
+            SaveChanges();
             _dataProvider = new EventsJsonEventDataProvider(_filepath);
             var allEvents = _dataProvider.GetAllEvents();
             if (allEvents.IsSuccess)
@@ -481,11 +552,6 @@ public class MainWindowViewModel : ViewModelBase
         var filepath = await ShowCreateFileDialog();
         if (string.IsNullOrEmpty(filepath)) return;
         await File.WriteAllTextAsync(filepath, sb.ToString());
-    }
-    
-    public void SubmitChanges()
-    {
-        _dataProvider.SubmitChanges();
     }
     
     private StringBuilder CreateStringBuilderFromEvents(
