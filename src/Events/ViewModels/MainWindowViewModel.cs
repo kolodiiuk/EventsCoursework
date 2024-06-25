@@ -24,20 +24,17 @@ public class MainWindowViewModel : ViewModelBase
 {
     private IEventDataProvider _dataProvider;
     private string _filepath;
-    
-    private ObservableCollection<Event> _filteredEvents;
-    private ObservableCollection<Event> _upcomingEvents;
-    private ObservableCollection<Event> _pastEvents;
-
     private readonly Timer _timer; 
     private int _notificationThresholdMinutes = 1;
     private int? _notificationThresholdMinutesTemp;
     private List<Guid> _shownNotfications = new();
     private bool _showNotifications = true;
 
+    private ObservableCollection<Event> _filteredEvents;
+    private ObservableCollection<Event> _upcomingEvents;
+    private ObservableCollection<Event> _pastEvents;
     private Event _selectedEvent;
     private string _selectedFilter;
-    
     private DateTimeOffset? _dateToFilterBy;
     private DateTimeOffset? _dateToFilterTo;
     private bool? _doneFilter;
@@ -213,7 +210,7 @@ public class MainWindowViewModel : ViewModelBase
         get => _locationFilter;
         set
         {
-            this.RaiseAndSetIfChanged(ref _categoryFilter, value);
+            this.RaiseAndSetIfChanged(ref _locationFilter, value);
             OnPropertyChanged();
         }
     }
@@ -386,10 +383,6 @@ public class MainWindowViewModel : ViewModelBase
         {
             specifications.Add(new TimeSpecification(TimeFilter.Value));
         }
-        if (DurationFilter.HasValue)
-        {
-            specifications.Add(new DurationSpecification(DurationFilter.Value));
-        }
         if (!string.IsNullOrEmpty(LocationFilter))
         {
             specifications.Add(new LocationSpecification(LocationFilter));
@@ -413,8 +406,8 @@ public class MainWindowViewModel : ViewModelBase
     private void FilterEvents()
     {
         var combinedSpecification = CombineSpecifications();
-        var allFilteredEvents = _dataProvider.
-            GetAllEvents().Value.
+        var allEvents = _dataProvider.GetAllEvents().Value;
+        var allFilteredEvents = allEvents.
             Where(e => combinedSpecification.IsSatisfiedBy(e));
         
         FilteredEvents = new ObservableCollection<Event>(allFilteredEvents);
@@ -492,6 +485,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         _dataProvider.SubmitChanges();
     }
+    
     private async void ShowOpenFileDialog()
     {
         var openFileDialog = new OpenFileDialog
@@ -610,7 +604,7 @@ public class MainWindowViewModel : ViewModelBase
     {
         var createEventWindowViewModel = new CreateEventWindowViewModel(_dataProvider);
         createEventWindowViewModel.EventCreated += ReloadEvents;
-        var createEventWindow = new CreateEventWindow(this, _dataProvider) // need to pass reload
+        var createEventWindow = new CreateEventWindow(this, _dataProvider) 
             { DataContext = createEventWindowViewModel };
 
         createEventWindow.Show();

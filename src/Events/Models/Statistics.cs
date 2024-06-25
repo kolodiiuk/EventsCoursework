@@ -20,13 +20,13 @@ public class Statistics
 
     public int NumberOfPastEvents => _events.Count(e => e.DateTime < DateTime.Now);
 
-    public Dictionary<string, int> EventDistributionByCategory =>
-        _events
+    public Dictionary<string, int> EventDistributionByCategory 
+        => _events
             .GroupBy(e => e.Category)
             .ToDictionary(g => g.Key ?? "Unknown", g => g.Count());
 
-    public Dictionary<string, int> EventsByLocation =>
-        _events
+    public Dictionary<string, int> EventsByLocation 
+        => _events
             .GroupBy(e => e.Location)
             .ToDictionary(g => g.Key ?? "Unknown", g => g.Count());
 

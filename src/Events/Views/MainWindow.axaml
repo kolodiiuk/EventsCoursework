@@ -54,10 +54,10 @@
                                     </DatePicker>
                                     <TextBlock>Time:</TextBlock>
                                     <TimePicker SelectedTime="{Binding TimeFilter, Mode=TwoWay}" />
-                                    <TextBlock>Duration:</TextBlock>
-                                    <TextBox
-                                        Text="{Binding DurationFilter, Mode=TwoWay, 
-        Converter={x:Static models:TimeSpanTypeConverter.Instance}}" />
+                                    <!-- <TextBlock>Duration:</TextBlock> -->
+        <!--                             <TextBox -->
+        <!--                                 Text="{Binding DurationFilter, Mode=TwoWay,  -->
+        <!-- Converter={x:Static models:TimeSpanTypeConverter.Instance}}" /> -->
                                     <TextBlock>Location:</TextBlock>
                                     <TextBox Text="{Binding LocationFilter, Mode=TwoWay}" />
                                     <TextBlock>Category:</TextBlock>
@@ -136,8 +136,8 @@
 
             <TabItem Header="Upcoming">
                 <StackPanel>
-                    <Button HorizontalAlignment="Stretch"
-                            Command="{Binding UpdateUpcomingEventsCommand}">Update the list</Button>
+                    <!-- <Button HorizontalAlignment="Stretch" -->
+                    <!--         Command="{Binding UpdateUpcomingEventsCommand}">Update the list</Button> -->
                     <DataGrid Margin="20"
                               ItemsSource="{Binding UpcomingEvents}"
                               GridLinesVisibility="All"
@@ -160,8 +160,8 @@
 
             <TabItem Header="Past">
                 <StackPanel>
-                    <Button HorizontalAlignment="Stretch"
-                            Command="{Binding UpdatePastEventsCommand}">Update the list</Button>
+                    <!-- <Button HorizontalAlignment="Stretch" -->
+                    <!--         Command="{Binding UpdatePastEventsCommand}">Update the list</Button> -->
                     <Button HorizontalAlignment="Stretch"
                             Command="{Binding OpenEditEventWindowCommand}">Update</Button>
                     <DataGrid Margin="20"

@@ -46,28 +46,6 @@ public class Result
     {
         return new Result<T>(value, true, string.Empty);
     }
-
-    public static Result Combine(
-        string errorMessagesSeparator, params Result[] results)
-    {
-        var failedResults = results.
-            Where(r => r.Failure).ToList();
-
-        if (!failedResults.Any())
-        {
-            return Success();
-        }
-
-        string errorMessage = string.Join(
-            errorMessagesSeparator,
-            failedResults.Select(x => x.Error).ToArray());
-        return Fail(errorMessage);
-    }
-
-    public static Result Combine(params Result[] results)
-    {
-        return Combine(", ", results);
-    }
 }
 
 public class Result<T> : Result

@@ -27,7 +27,6 @@ public class EditEventWindowViewModel : ViewModelBase
     private bool? _done;
     private Guid _id;
 
-    private List<string> _suggestions;
     private DateTime? _dateTime;
 
     public EditEventWindowViewModel(Guid id, IEventDataProvider dataProvider)
@@ -41,15 +40,6 @@ public class EditEventWindowViewModel : ViewModelBase
         OpenOverlapHandlingWindowCommand = ReactiveCommand.Create(OpenOverlapHandlingWindow);
 
         InitializeProperties();
-        
-        Suggestions = new List<string>
-        {
-            "Work",
-            "School",
-            "Family",
-            "Friends",
-            "Other"
-        };
     }
 
     [Required]
@@ -110,25 +100,26 @@ public class EditEventWindowViewModel : ViewModelBase
         get => _done;
         set => this.RaiseAndSetIfChanged(ref _done, value);
     }
-    
-    public List<string> Suggestions
+
+    public List<string> Suggestions { get; set; } = new List<string>
     {
-        get => _suggestions;
-        set => this.RaiseAndSetIfChanged(ref _suggestions, value);
-    }
+        "Work",
+        "School",
+        "Family",
+        "Friends",
+        "Other"
+    };
 
-    private Event SelectedEvent { get; }
-
-    #region Commands
     public ReactiveCommand<Unit, Unit> UpdateEventCommand { get; set; }
+    
     public ReactiveCommand<Unit, Unit> DeleteEventCommand { get; set; }
+    
     private ReactiveCommand<Unit, Unit> OpenOverlapHandlingWindowCommand { get; }
 
-    #endregion
+    private Event SelectedEvent { get; }
     
     public event Action EventUpdated;
     
-    // todo: adjust for changed repository method
     private void UpdateEvent()
     {
         var selectedEvent = _dataProvider.GetEventById(_id).Value;
@@ -176,7 +167,6 @@ public class EditEventWindowViewModel : ViewModelBase
         {
             duration = Duration.Value;
         }
-        
         
         if (!AreEventsOverlapping(_dateTime, duration))
         {

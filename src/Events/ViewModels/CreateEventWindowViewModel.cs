@@ -31,15 +31,6 @@ public class CreateEventWindowViewModel : ViewModelBase
     {
         _eventDataProvider = dataProvider;
         
-        Suggestions = new List<string>
-        {
-            "Work",
-            "School",
-            "Family",
-            "Friends",
-            "Other"
-        };
-        
         CreateEventCommand = ReactiveCommand.Create(CreateNewEventWithOverlapCheck);
         OpenOverlapHandlingWindowCommand = ReactiveCommand.Create(OpenOverlapHandlingWindow);
     }
@@ -93,12 +84,14 @@ public class CreateEventWindowViewModel : ViewModelBase
         set => this.RaiseAndSetIfChanged(ref _done, value);
     }
 
-    public List<string> Suggestions
+    public List<string> Suggestions { get; } = new List<string>
     {
-        get => _suggestions;
-        set => this.RaiseAndSetIfChanged(ref _suggestions, value);
-    }
-
+        "Work",
+        "School",
+        "Family",
+        "Friends",
+        "Other"
+    };
 
     public ReactiveCommand<Unit, Unit> CreateEventCommand { get; }
     
@@ -108,10 +101,7 @@ public class CreateEventWindowViewModel : ViewModelBase
 
     public void CreateNewEventWithOverlapCheck()
     {
-        if (string.IsNullOrWhiteSpace(Name))
-        {
-            return;
-        }
+        if (string.IsNullOrWhiteSpace(Name)) return;
 
         DateTime? dateTime = null;
         if (Date.HasValue && Time.HasValue)
